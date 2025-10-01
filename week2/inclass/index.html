@@ -43,8 +43,11 @@
             font-style: italic;
         }
         @media (min-width: 768px) {
-            
-        }
+           
+            nav {
+                background-color: aquamarine;
+                font-family: fantasy;
+            }
             nav ul {
                 display: flex;
                 justify-content: space-around;
@@ -52,8 +55,46 @@
              nav ul li{
                 border-bottom: none;
                 margin: 10px;
+                padding: 0;
             }
-        
+        }
+
+        @media (min-width:1000px) {
+
+            nav {
+                background-color: blue;
+                font-family: 'Courier New', Courier, monospace;
+            }
+            
+            nav ul {
+                display: flex;
+                justify-content: center;
+            }
+            nav ul li {
+                border-bottom: none;
+                margin: 10px;
+                padding: 0px;
+            }
+        }
+
+        @media (min-width:1500px) {
+
+            nav {
+                background-color: lightseagreen;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            nav ul {
+                display: flex;
+                justify-content: flex-end;
+            }
+            nav ul li {
+                border-bottom: none;
+                margin: 10px;
+                padding: 0;
+            }
+        }
+
     </style>
   </head>
 <body>
