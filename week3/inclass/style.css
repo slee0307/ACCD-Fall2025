@@ -1,0 +1,156 @@
+body {
+             margin: 0;
+             font-family:'Times New Roman', Times, serif;
+             color: black         
+}    
+
+img {
+    max-width: 100px;
+    width: 100%;
+}
+
+header nav {
+    background-color: rgb(189, 231, 239);
+}
+
+header nav ul {
+     margin: 0;
+     padding: 0px;  
+     list-style: none;
+     font-size: 24px;
+     display: flex;
+     flex-direction: column;
+ }
+
+header nav ul li{
+    text-align: center;
+    border-bottom: 1px solid rgb(38, 109, 17);
+    padding: 16px;
+}
+        
+header ul li:last-child {
+    border-bottom: none;
+} 
+
+header ul a { 
+    text-decoration: none;
+    color: rgb(1, 64, 66);
+}
+
+.active {
+    font-weight: bold;
+}
+
+.cursie {
+    font-style: italic;
+}
+
+#home{
+    background-color: rgb(24, 148, 179);
+ }
+
+ #about{
+     background-color: rgb(176, 83, 163);
+ }
+
+ #contact{
+     background-color: rgb(19, 157, 123);
+ }
+    
+        .main_section {
+            padding: 16px;
+        }
+
+        /* GALLERY STYLES */
+
+ .thumbnails {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+ .thumbnails li {
+     padding: 8px;
+ }
+        
+.current-thumb{
+     background-color: rgb(140, 146, 225);
+ }
+
+ .imgShowcase {
+    padding: 8px;
+    position: relative;
+ }
+
+ .showcase-arrow {
+     width: 48px;
+     height: 58px;
+     position: absolute;
+     top: 50%;
+     background-color: rgba(150, 150, 150,0.3);
+     padding: 8px;
+     margin: -29px 8px 0px;
+ }
+        
+ .showcase-arrow-left {
+     left: 0;
+ }
+
+ .showcase-arrow-right {
+     right: 0;
+ }
+ /* TABLET SIZED SCREEN */
+
+  @media (min-width: 768px){
+    
+    nav{
+        background-color: aqua;
+        font-family:Verdana, Geneva, Tahoma, sans-serif
+    }
+    
+    
+    header nav ul{
+         flex-direction: row;
+         justify-content:center;
+    }
+
+            
+    header ul li{
+    border-bottom: none;
+    margin: 10px;
+    padding:0;
+    }
+  }
+
+ /* DESKTOP SIZED SCREEN */
+        @media (min-width:960px) {
+
+            nav {
+                background-color: rgb(133, 133, 234);
+                font-family:'Times New Roman', Times, serif;
+            }
+            
+            nav ul {
+                display: flex;
+                justify-content:end
+            }
+            nav ul li {
+                border-bottom: none;
+                margin: 10px;
+                padding: 0px;
+            }
+        }
+
+         
+main {
+            padding: 20px;
+        }
+
+        .imgShowcase img {
+            width: 100%;
+            max-width: 600px;
+            display: block;
+        }
+        
