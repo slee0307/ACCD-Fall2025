@@ -1,21 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Floating Cloud with Nature Sound</title>
+<head>
+  <meta charset="UTF-8">
+  <title>Floating Cloud Sketch</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.sound.min.js"></script>
+  <script src="sketch_new.js" defer></script>
 
-    <!-- p5.js & p5.sound 라이브러리 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.sound.min.js"></script>
-    <script src="sketch.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      text-align: center;
+      line-height: 1.6;
+    }
 
-    <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-        background: #87CEEB;
-      }
-    </style>
-  </head>
-  <body></body>
+    .container {
+      width: 70%;
+      margin: 60px auto;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+
+    /* p5.js 캔버스를 감싸는 부분 */
+    #cloudCanvas {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 40px;
+    }
+
+    canvas {
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Cloud Sketch</h1>
+
+    <p>
+      When I first tried to make the clouds move and add natural sound to my sketch, nothing felt right. 
+      The sound didn’t play at all at first, and the cloud movement looked too stiff and robotic. 
+      I wanted it to feel calm and natural, like real clouds drifting across the sky, but everything looked mechanical.
+    </p>
+
+    <p>
+      After experimenting for a while, I learned that I could use <code>noise()</code> instead of <code>random()</code> 
+      to make the movement more natural and smooth. I also found out that the sound didn’t play automatically 
+      because browsers block it unless the user clicks first. Once I added a simple “Click to start sound” message 
+      and used <code>mousePressed()</code> to play it, everything finally worked the way I wanted. 
+      The clouds started moving slowly and softly, and the background sound made the whole scene feel alive.
+    </p>
+
+    <!-- 구름 스케치 캔버스 -->
+    <div id="cloudCanvas"></div>
+  </div>
+</body>
 </html>
