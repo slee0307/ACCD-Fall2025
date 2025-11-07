@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quote Reflections</title>
+  <style>
+    :root {
+      --bg: #f7f7f8;
+      --card: #ffffff;
+      --text: #151516;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --ring: rgba(37,99,235,.15);
+      --shadow: 0 8px 20px rgba(0,0,0,.06);
+      --radius: 14px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b0c0e;
+        --card: #121417;
+        --text: #e6e7e9;
+        --muted: #a1a1aa;
+        --accent: #60a5fa;
+        --ring: rgba(96,165,250,.25);
+        --shadow: 0 10px 25px rgba(0,0,0,.4);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1000px 600px at 80% -10%, var(--ring), transparent 70%), var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 60px auto 100px;
+      padding: 0 20px;
+    }
+
+    h1 {
+      font-size: clamp(1.4rem, 2.4vw + 1rem, 2.2rem);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section {
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 26px 30px 24px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(120,120,128,.15);
+    }
+
+    h2 {
+      color: var(--accent);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 18px;
+    }
+
+    blockquote {
+      margin: 0 0 10px 0;
+      padding: 10px 14px;
+      border-left: 4px solid var(--accent);
+      background: rgba(37,99,235,.07);
+      border-radius: 8px;
+      font-size: 0.98rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      blockquote { background: rgba(96,165,250,.08); }
+    }
+
+    p { margin: 0 0 18px; font-size: 0.97rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Quote Reflections</h1>
+
+    <section class="section">
+      <h2><a href="https://programmingdesignsystems.com/introduction/" target="_blank">Programming Design Systems: Introduction</a></h2>
+
+      <blockquote>“We are now in transition from an object-oriented to a systems-oriented culture. Here change emanates, not from things, but from the way things are done.”</blockquote>
+      <p>It connects to how my work has expanded from making static images to building interactive systems.</p>
+
+      <blockquote>“Digital products allow users to interact with their content … a linear narrative is replaced by a set of complex states and transitions.”</blockquote>
+      <p>It reminds me that digital design is not just about visuals. Time, motion, and changes become part of the design. It makes me think more about behavior, not only form.</p>
+
+      <blockquote>“What happens when we try to redefine the graphic design curriculum using a programming language as the tool for the designer?”</blockquote>
+      <p>Seeing code as a design tool changes how I make things. Using TouchDesigner, I can test ideas and see what happens right away — it helps me think and design at the same time.</p>
+    </section>
+
+    <section class="section">
+      <h2><a href="https://hci.stanford.edu/courses/cs247/2012/readings/WhatDoPrototypesPrototype.pdf" target="_blank">What Do Prototypes Prototype? (Houde & Hill, 1997)</a></h2>
+
+      <blockquote>“Prototypes are any representation of a design idea, regardless of medium.”</blockquote>
+      <p>This shows that a prototype can be anything — a sketch, a test, or even a rough idea. It makes me feel freer to try different things instead of making one perfect model.</p>
+
+      <blockquote>“Role, look and feel, and implementation are distinct dimensions of prototypes.”</blockquote>
+      <p>It helps me see that each prototype can focus on one thing — how it works, how it feels, or how it’s built. I can test each part separately and understand my design better.</p>
+
+      <blockquote>“No single prototype can answer all questions about an interactive artifact.”</blockquote>
+      <p>It reminds me that one prototype doesn’t have to do everything. Making different versions helps me learn step by step instead of worrying about perfection.</p>
+    </section>
+
+    <footer>© 2025 — Reading notes by SJ</footer>
+  </main>
+</body>
+</html>
