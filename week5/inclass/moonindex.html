@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Earth & Moon Motion Rhythm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script defer src="Moon.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #0b0b16;
+      color: #eaeaea;
+      overflow-x: hidden;
+    }
+
+    /* === 상단 애니메이션 섹션 === */
+    header {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #sketch-holder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    #sketch-holder canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    header h1 {
+      position: relative;
+      z-index: 1;
+      font-size: 3rem;
+      margin: 0;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+
+    /* === 프로세스 슬라이더 === */
+    section {
+      position: relative;
+      z-index: 1;
+      background: rgba(15, 18, 35, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 40px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+      text-align: center;
+    }
+
+    h2 {
+      color: #9ecfff;
+      font-size: 2rem;
+      margin-top: 0;
+    }
+
+    p.lead {
+      color: #aab3c2;
+      margin-bottom: 40px;
+    }
+
+    /* 슬라이드 컨테이너 */
+    .slider {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    .slide img {
+      width: 100%;
+      max-width: 700px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .caption {
+      margin-top: 15px;
+      color: #e0e6f0;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    /* 화살표 버튼 */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: none;
+      font-size: 2rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .arrow:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .arrow.right {
+      right: 20px;
+    }
+
+    .arrow.left {
+      left: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🌍 애니메이션 섹션 -->
+  <header>
+    <div id="sketch-holder"></div>
+    <h1>🌍 Earth & Moon Motion Rhythm</h1>
+  </header>
+
+  <!-- 🪐 프로세스 슬라이드 -->
+  <section>
+    <h2>Process Documentation</h2>
+    <p class="lead">View each stage of the project by clicking the arrow.</p>
+
+    <div class="slider">
+      <button class="arrow left" onclick="prevSlide()">&#8592;</button>
+
+      <div class="slide active">
+        <img src="Iteration/iteration1.png" alt="Step 1">
+        <p class="caption"><strong>Step 1 —</strong> Built the base layout and overall scene setup.</p>
+      </div>
+
+      <div class="slide">
+        <img src="Iteration/iteration2.png" alt="Step 2">
+        <p class="caption"><strong>Step 2 —</strong> Inserted the Earth image (encountered an import error).</p>
+      </div>
+
+      <div class="slide">
+        <img src="Iteration/iteration3.png" alt="Step 3">
+        <p class="caption"><strong>Step 3 —</strong> Added the Earth successfully and implemented a twinkling star background.</p>
+      </div>
+
+      <div class="slide">
+        <img src="Iteration/iteration4.png" alt="Step 4">
+        <p class="caption"><strong>Step 4 —</strong> Introduced the Moon image to orbit the Earth.</p>
+      </div>
+
+      <div class="slide">
+        <img src="Iteration/iteration5.png" alt="Step 5">
+        <p class="caption"><strong>Step 5 —</strong> Removed the Moon’s black background and adjusted its motion speed.</p>
+      </div>
+
+      <div class="slide">
+        <img src="Iteration/iteration6.png" alt="Step 6">
+        <p class="caption"><strong>Step 6 —</strong> Refined the title placement and finalized the composition.</p>
+      </div>
+
+      <button class="arrow right" onclick="nextSlide()">&#8594;</button>
+    </div>
+  </section>
+
+  <script>
+    let current = 0;
+    const slides = document.querySelectorAll(".slide");
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === index);
+      });
+    }
+
+    function nextSlide() {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    }
+
+    function prevSlide() {
+      current = (current - 1 + slides.length) % slides.length;
+      showSlide(current);
+    }
+  </script>
+</body>
+</html>
