@@ -20,19 +20,24 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);   // 🔥 Fullscreen
+  // 🔥 1) 캔버스 생성 (단 한 번!)
+  let canvas = createCanvas(windowWidth, windowHeight * 0.7);
+  canvas.parent("canvas-holder");    // 🔥 HTML div 안에 삽입
 
+  // 🔥 2) 웹캠 설정
   video = createCapture(VIDEO, { flipped: true });
-  video.size(windowWidth, windowHeight);     // 🔥 비디오도 전체 화면
+  video.size(windowWidth, windowHeight * 0.7);
   video.hide();
 
-  // Create raindrops randomly across full screen
+  // 🔥 3) 비 생성
   for (let i = 0; i < numRain; i++) {
     raindrops.push(createRaindrop());
   }
 
+  // 🔥 4) ML5 HandPose 시작
   handPose.detectStart(video, gotHands);
 }
+
 
 function draw() {
   background(200);

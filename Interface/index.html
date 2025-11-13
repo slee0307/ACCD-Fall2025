@@ -8,12 +8,11 @@
     <meta charset="utf-8" />
 
     <style>
-      /* 🔥 아래는 Documentation 섹션 스타일 */
       #documentation {
         color: black;
         width: 80%;
         margin: 40px auto;
-       font-family: "Krungthep", "Arial Black"
+        font-family: "Krungthep", "Arial Black", sans-serif;
       }
 
       #documentation h2 {
@@ -38,26 +37,36 @@
         border-radius: 10px;
         border: 1px solid #555;
       }
+
+      /* 🔥 canvas container */
+      #canvas-holder {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
     </style>
 
   </head>
 
   <body>
-    <main></main>
 
-    <!-- 🔥 p5.js sketch -->
+    <!-- 🔥 Canvas goes here -->
+    <div id="canvas-holder"></div>
+
+    <!-- p5.js sketch -->
     <script src="sketch.js"></script>
 
-    <!-- 🔥 Documentation section under webcam -->
+    <!-- 🔥 Documentation section -->
     <section id="documentation">
       <h2>📘 Project Documentation</h2>
 
-      <h3> System Diagram</h3>
+      <h3>System Diagram</h3>
       <div class="img-row">
         <img src="assets/diagram1.png" class="doc-img">
       </div>
 
-      <h3> Prototype Development Screenshots</h3>
+      <h3>Prototype Screenshots</h3>
       <div class="img-row">
         <img src="assets/process1.png" class="doc-img">
         <img src="assets/process2.png" class="doc-img">
