@@ -3,12 +3,146 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Synthetic Meadow</title>
-  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
-  <script src="classes.js"></script>
-  <script src="sketch.js"></script>
+  <title>🌿 Synthetic Meadow Simulation</title>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      background-color: #0f0f0f;
+      color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background: #121212;
+      padding: 40px 0 10px;
+      border-bottom: 1px solid #333;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      color: #a3e68e;
+      margin-top: 50px;
+      font-weight: 600;
+    }
+
+    p {
+      width: 70%;
+      max-width: 800px;
+      margin: 10px auto;
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    img {
+      margin-top: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    }
+
+    #sketch-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 40px;
+      margin-bottom: 50px;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 20px;
+      font-size: 0.85em;
+      color: #888;
+      border-top: 1px solid #333;
+    }
+  </style>
 </head>
-<body style="margin:0; background:#0b0e12; color:white; font-family:sans-serif;">
-  <h2 style="padding:12px;">🌿 Synthetic Meadow Simulation</h2>
+
+<body>
+  <!-- ────────────── HEADER ────────────── -->
+  <header>
+    <h1>🌿 Synthetic Meadow Simulation</h1>
+    <p style="font-size:14px; color:#aaa;">
+      Modeling a digital ecosystem of bees, flowers, and wind using Object-Oriented Programming.
+    </p>
+  </header>
+
+  <!-- ────────────── INTENT SECTION ────────────── -->
+  <section id="intent">
+    <h2>💬 Intent</h2>
+    <p>
+      This project explores how natural systems can be represented in digital form through
+      <strong>Object-Oriented Programming</strong>. The simulation models interactions between
+      <em>bees, flowers, wind,</em> and <em>seeds</em> to reflect the emergent relationships found
+      in nature. My goal was to create a synthetic environment that feels alive — where motion,
+      growth, and change arise from simple coded rules.
+    </p>
+  </section>
+
+  <!-- ────────────── PROCESS SECTION ────────────── -->
+  <section id="process">
+    <h2>⚙️ Process</h2>
+    <p>
+      Each element in the system is built as a separate class — <code>Bee</code>, <code>Flower</code>,
+      <code>Wind</code>, and <code>Seed</code>. Using a combination of attraction and randomness,
+      bees are guided by the wind to seek flowers, spreading pollen that generates new seeds.
+      Over time, seeds grow into new flowers, creating a continuous ecosystem loop.  
+    </p>
+    <p>
+      The user can interact with the system by dragging the mouse to change wind direction and
+      adjusting sliders to control wind strength and flower population. This user input introduces
+      dynamic, emergent patterns that evolve differently each time the simulation runs.
+    </p>
+  </section>
+
+  <!-- ────────────── UML SECTION ────────────── -->
+  <section id="uml">
+    <h2>📊 UML Diagram</h2>
+    <p>The following diagram shows the relationships between system components:</p>
+    <img src="assets/uml-synthetic-meadow.png" alt="UML Diagram" width="600" />
+  </section>
+
+  <!-- ────────────── SIMULATION SECTION ────────────── -->
+  <section id="simulation">
+    <h2>🐝 Interactive Simulation</h2>
+    <p>
+      🌀 Drag to change wind direction. <br />
+      🎚️ Use sliders to adjust wind strength and flower count.
+    </p>
+
+    <!-- 캔버스 들어올 자리 -->
+    <div id="sketch-container"></div>
+
+    <!-- p5.js 라이브러리 및 코드 연결 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script>
+      // p5 캔버스를 simulation 섹션 안으로 생성
+      let sketchContainer;
+
+      function setup() {
+        sketchContainer = document.getElementById('sketch-container');
+        let canvas = createCanvas(windowWidth * 0.8, windowHeight * 0.6);
+        canvas.parent(sketchContainer);
+        background(20);
+      }
+
+      function draw() {
+        // 이후에 classes.js + sketch.js 불러올 때 자동 실행됨
+      }
+    </script>
+    <script src="classes.js"></script>
+    <script src="sketch.js"></script>
+  </section>
+
+  <!-- ────────────── FOOTER ────────────── -->
+  <footer>
+    <p>Created by Seonjoo Lee · Media Design Practices · ArtCenter College of Design</p>
+  </footer>
 </body>
 </html>

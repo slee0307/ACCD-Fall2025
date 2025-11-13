@@ -1,22 +1,30 @@
+// ───────────────────────────
+// 🌾 Synthetic Meadow – main sketch
+// ───────────────────────────
+
+// 전역 변수
 let bees = [];
 let flowers = [];
+let seeds = [];
 let wind;
 let weather;
 
-// 🌤️ 슬라이더 변수
+// 🌬️ 슬라이더 변수
 let windStrengthSlider;
 let flowerCountSlider;
 
+// 🌿 설명 라벨
+let windLabel;
+let flowerLabel;
+
 function setup() {
-  // 🖼️ 캔버스를 HTML 아래로 보내되, 마우스 이벤트는 통과되게
-  let canvas = createCanvas(windowWidth * 0.8, windowHeight * 0.8);
-  canvas.position(0, 0);
-  canvas.style('position', 'absolute');
-  canvas.style('z-index', '-1'); // ← 캔버스를 맨 아래로 보내기
-  canvas.style('pointer-events', 'auto'); // ← 마우스 이벤트 인식 가능
+  // 🌸 캔버스 생성 및 컨테이너 설정
+  const container = select("#sketch-container");
+  let canvas = createCanvas(windowWidth * 0.8, windowHeight * 0.6);
+  canvas.parent(container);
+  textFont("Arial");
 
-
-  // 🌿 시스템 초기화
+  // 🌬️ 시스템 초기화
   wind = new Wind();
   weather = new Weather();
 
@@ -30,88 +38,79 @@ function setup() {
     flowers.push(new Flower(random(width), random(height)));
   }
 
-  // 🐝 소제목 (제목 아래)
-  let subtitle = createP("🐝 Bees move naturally following wind and flowers.");
-  subtitle.position(35, 90); // 제목보다 더 아래로 이동
-  subtitle.style("color", "#cccccc");
-  subtitle.style("font-size", "13px");
-  subtitle.style("font-family", "Arial");
-  subtitle.style("margin", "0");
-
-  // 🌬️ 왼쪽 슬라이더 (바람 세기)
+  // 🌬️ 바람 세기 슬라이더 (왼쪽)
 windStrengthSlider = createSlider(0, 1, 0.4, 0.01);
-windStrengthSlider.position(35, height + 80);
-windStrengthSlider.style("width", "200px");
+windStrengthSlider.parent(container);
+windStrengthSlider.style("width", "250px");
+windStrengthSlider.style("margin", "15px");
 
-// 🌸 오른쪽 슬라이더 (꽃 개수)
-flowerCountSlider = createSlider(10, 40, 20, 1);
-flowerCountSlider.position(285, height + 80);
-flowerCountSlider.style("width", "200px");
+// 🌬️ 바람 슬라이더 설명 (바로 아래)
+let windDragLabel = createP("💨 Drag to change wind direction.");
+windDragLabel.parent(container);
+windDragLabel.style("color", "#aaa");
+windDragLabel.style("font-size", "13px");
+windDragLabel.style("margin", "2px 0 0 5px");
 
-// 🌬️ 왼쪽 슬라이더 위 설명 (두 줄)
-let windLabelTop = createP("💨 Drag to change wind direction.<br>🌬️ Left slider adjusts wind strength.");
-windLabelTop.position(35, height + 40); // ← 슬라이더 위로 올림
-windLabelTop.style("color", "#aaa");
-windLabelTop.style("font-size", "12px");
-windLabelTop.style("font-family", "Arial");
-windLabelTop.style("margin", "0");
-windLabelTop.style("line-height", "1.4");
+windLabel = createP("🏳️‍🌬️ Adjusts wind strength.");
+windLabel.parent(container);
+windLabel.style("color", "#aaa");
+windLabel.style("font-size", "13px");
+windLabel.style("margin", "2px 0 20px 5px");
 
-// 🌸 오른쪽 슬라이더 위 설명 (한 줄)
-let flowerLabelTop = createP("🌸 Right slider changes flower count.");
-flowerLabelTop.position(285, height + 60); // ← 오른쪽 슬라이더 위로
-flowerLabelTop.style("color", "#aaa");
-flowerLabelTop.style("font-size", "12px");
-flowerLabelTop.style("font-family", "Arial");
-flowerLabelTop.style("margin", "0");
+// 🌸 꽃 개수 슬라이더 (오른쪽)
+flowerCountSlider = createSlider(10, 60, 20, 1);
+flowerCountSlider.parent(container);
+flowerCountSlider.style("width", "250px");
+flowerCountSlider.style("margin", "10px 0 0 15px");
 
-// 🧾 Bee & Flower 카운트 표시 (HTML로 생성)
-let countLabel = createP(`🐝 Bees: ${bees.length}    🌸 Flowers: ${flowers.length}`);
-countLabel.position(35, height + 120); // 슬라이더 바로 밑
-countLabel.style("color", "#ccc");
-countLabel.style("font-size", "13px");
-countLabel.style("font-family", "Arial");
-countLabel.style("margin", "0");
-
-// draw() 안에서 갱신되도록 전역 변수로 유지
-window.countLabel = countLabel;
-
-  textFont("Arial");
-  
+// 🌸 꽃 슬라이더 설명 (바로 아래)
+flowerLabel = createP("🌸 Changes flower count.");
+flowerLabel.parent(container);
+flowerLabel.style("color", "#aaa");
+flowerLabel.style("font-size", "13px");
+flowerLabel.style("margin", "2px 0 15px 5px");
 }
 
 function draw() {
   background(20);
 
-  // 🌬️ 슬라이더 값 반영
+  // 🌤️ 날씨 업데이트
+  weather.tick();
+
+  // 🌬️ 슬라이더로 바람 세기 조절
   wind.strength = windStrengthSlider.value();
 
-  // 🌸 꽃 개수 조정
+  // 🌸 꽃 개수 조절 (기본 밀도 유지)
   let desiredCount = flowerCountSlider.value();
   while (flowers.length < desiredCount) {
     flowers.push(new Flower(random(width), random(height)));
   }
-  while (flowers.length > desiredCount) {
+  while (flowers.length > desiredCount + 200) { // 여유 공간 허용
     flowers.pop();
   }
-
-  // 🌤️ 환경 업데이트
-  weather.tick();
 
   // 🌸 꽃 업데이트
   for (let f of flowers) {
     f.refill(0.001);
     f.display();
+    f.spawnSeed(seeds); // 일정 수분 후 씨앗 생성
   }
 
-  // 🐝 벌 업데이트
+  // 🌱 씨앗 업데이트
+  for (let i = seeds.length - 1; i >= 0; i--) {
+    seeds[i].update(flowers);
+    seeds[i].display();
+    if (!seeds[i].alive) seeds.splice(i, 1);
+  }
+
+  // 🐝 벌 이동 및 상호작용
   for (let b of bees) {
     b.update(flowers);
-    if (b.target) b.visit(b.target);
+    if (b.target) b.visit(b.target, seeds); // 꽃 방문 시 씨앗 생성
     b.display();
   }
 
-  // 🌬️ 바람 시각화
+  // 🌬️ 바람 시각화 (배경 흐름선)
   stroke(80);
   for (let x = 0; x < width; x += 50) {
     for (let y = 0; y < height; y += 50) {
@@ -119,28 +118,23 @@ function draw() {
       line(x, y, x + wv.x * 20, y + wv.y * 20);
     }
   }
-// 🧾 정보 표시 (슬라이더 밑 중앙 정렬)
-noStroke();
-fill(200);
-textSize(13);
-textAlign(CENTER);
-text(
-  `🐝 Bees: ${bees.length}    🌸 Flowers: ${flowers.length}`,
-  width / 2,  // 화면 가운데
-  height + 110 // 슬라이더 바로 밑 (브라우저에 따라 잘 안 보이면 115~120으로 조정)
-);
 
-
+  // 🧾 정보 표시 (중앙 하단)
+  noStroke();
+  fill(200);
+  textSize(13);
+  textAlign(CENTER);
+  text(`🐝 Bees: ${bees.length}   🌸 Flowers: ${flowers.length}   🌱 Seeds: ${seeds.length}`, width / 2, height - 10);
 }
-// 🧾 Bee & Flower 카운트 업데이트
-countLabel.html(`🐝 Bees: ${bees.length}    🌸 Flowers: ${flowers.length}`);
 
-
-// 🖱️ 드래그로 바람 방향 바꾸기
+// ───────────────────────────
+// 🖱️ 마우스 드래그로 바람 방향 변경
+// ───────────────────────────
 let dragStart = null;
 function mousePressed() {
   dragStart = createVector(mouseX, mouseY);
 }
+
 function mouseReleased() {
   if (dragStart) {
     let dragEnd = createVector(mouseX, mouseY);
@@ -148,10 +142,3 @@ function mouseReleased() {
   }
   dragStart = null;
 }
-
-function mouseDragged() {
-  if (!dragStart) return;
-  const dragEnd = createVector(mouseX, mouseY);
-  wind.setFromDrag(dragStart, dragEnd); // 실시간 방향 갱신
-}
-
