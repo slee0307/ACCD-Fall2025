@@ -1,13 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="utf-8" />
+
+    <!-- p5.js -->
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+
+    <!-- ml5.js -->
     <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css">
-    <meta charset="utf-8" />
 
+    <!-- 🔥 Inline CSS for layout -->
     <style>
+      /* Canvas Holder */
+      #canvas-holder {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      /* Instruction Text */
+      #instruction {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        margin-top: 20px;
+        margin-bottom: 40px;
+        color: #333;
+        font-family: "Krungthep", Arial, sans-serif;
+      }
+
+      /* Documentation Section */
       #documentation {
         color: black;
         width: 80%;
@@ -37,16 +62,7 @@
         border-radius: 10px;
         border: 1px solid #555;
       }
-
-      /* 🔥 canvas container */
-      #canvas-holder {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-      }
     </style>
-
   </head>
 
   <body>
@@ -54,8 +70,10 @@
     <!-- 🔥 Canvas goes here -->
     <div id="canvas-holder"></div>
 
-    <!-- p5.js sketch -->
-    <script src="sketch.js"></script>
+    <!-- 🔥 Instruction text -->
+    <div id="instruction">
+      Use your hand to avoid the rain ☔️
+    </div>
 
     <!-- 🔥 Documentation section -->
     <section id="documentation">
@@ -66,13 +84,17 @@
         <img src="assets/diagram1.png" class="doc-img">
       </div>
 
-      <h3>Prototype Screenshots</h3>
+      <h3>Prototype Development Screenshots</h3>
       <div class="img-row">
         <img src="assets/process1.png" class="doc-img">
         <img src="assets/process2.png" class="doc-img">
         <img src="assets/process3.png" class="doc-img">
+        <img src="assets/process4.png" class="doc-img">
       </div>
     </section>
+
+    <!-- p5 Sketch -->
+    <script src="sketch.js"></script>
 
   </body>
 </html>
