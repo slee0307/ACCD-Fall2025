@@ -7,45 +7,81 @@ let thumbTip, indexTip;
 let umbrellaImg;
 let rainImg;
 
+let mySound;       // 배경 음악
+let dropSound;     // 💧 효과음
+
 let umbrella = { x: 0, y: 0, w: 300, h: 300 };
 
 let raindrops = [];
-let numRain = 20; // 전체 화면이니까 비도 더 많이!
+let numRain = 20;  // 기본값
+
+let rainSlider;    // 🌧 슬라이더 값
+
 
 function preload() {
   handPose = ml5.handPose({ flipped: true });
 
   umbrellaImg = loadImage("assets/umbrella.png");
   rainImg = loadImage("assets/raindrop.png");
+
+  // 🎵 사운드
+  soundFormats("mp3", "wav", "ogg");
+  mySound = loadSound("assets/music.mp3");
+  dropSound = loadSound("assets/hit.mp3");
+  dropSound.setVolume(0.3);
 }
 
 function setup() {
-  // 🔥 1) 캔버스 생성 (단 한 번!)
   let canvas = createCanvas(windowWidth, windowHeight * 0.7);
-  canvas.parent("canvas-holder");    // 🔥 HTML div 안에 삽입
+  canvas.parent("canvas-holder");
 
-  // 🔥 2) 웹캠 설정
   video = createCapture(VIDEO, { flipped: true });
   video.size(windowWidth, windowHeight * 0.7);
   video.hide();
 
-  // 🔥 3) 비 생성
   for (let i = 0; i < numRain; i++) {
     raindrops.push(createRaindrop());
   }
 
-  // 🔥 4) ML5 HandPose 시작
   handPose.detectStart(video, gotHands);
+
+  // 🔊 버튼 — 클릭하면 사운드 ON/OFF
+const soundBtn = document.getElementById("sound-btn");
+soundBtn.addEventListener("click", () => {
+  userStartAudio();
+
+  if (mySound.isPlaying()) {
+    mySound.stop();  
+    soundBtn.innerText = "Turn On Sound 🎧";
+  } else {
+    mySound.play();
+    soundBtn.innerText = "Turn Off Sound 🔇";
+  }
+});
+ // 🌧 슬라이더 연결 ← 이것 때문에 화면이 안 나왔음!
+  rainSlider = document.getElementById("rain-slider");
 }
+
 
 
 function draw() {
   background(200);
 
-  // Webcam full screen
-  image(video, 0, 0, windowWidth, windowHeight);
+  let videoHeight = windowHeight * 0.7;
+  image(video, 0, 0, windowWidth, videoHeight);
 
-  // --- Umbrella Tracking (if hand exists) ---
+  // 🌧 슬라이더로 비 양 조절
+  let targetRain = parseInt(rainSlider.value);
+
+  // 비 양 업데이트
+  while (raindrops.length < targetRain) {
+    raindrops.push(createRaindrop());
+  }
+  while (raindrops.length > targetRain) {
+    raindrops.pop();
+  }
+
+  // --- Umbrella tracking ---
   if (hands.length > 0) {
     let umbrellaX = (thumbTip.x + indexTip.x) / 2;
     let umbrellaY = (thumbTip.y + indexTip.y) / 2;
@@ -58,42 +94,45 @@ function draw() {
 
   // --- Rain Loop ---
   for (let r of raindrops) {
+    // 중력 효과
+    r.vel.y += 0.2;
+    if (r.vel.y > 7) r.vel.y = 7;
+
     r.pos.add(r.vel);
 
-    // Respawn rain at top after falling
-    if (r.pos.y > height) {
+    // 화면 아래 넘어가면 다시 위로
+    if (r.pos.y > videoHeight) {
       r.pos.y = -20;
       r.pos.x = random(width);
+      r.vel.y = random(3, 7);
     }
 
-    // Umbrella collision (only if hand detected)
-    if (hands.length > 0) {
-      if (
-        r.pos.x > umbrella.x &&
-        r.pos.x < umbrella.x + umbrella.w &&
-        r.pos.y > umbrella.y &&
-        r.pos.y < umbrella.y + umbrella.h
-      ) {
-        // Make rain bounce back up
-        r.vel.y = -abs(r.vel.y);
-        r.pos.y = umbrella.y - 10;
-      }
+    // 우산 충돌
+    if (
+      hands.length > 0 &&
+      r.pos.x > umbrella.x &&
+      r.pos.x < umbrella.x + umbrella.w &&
+      r.pos.y > umbrella.y &&
+      r.pos.y < umbrella.y + umbrella.h
+    ) {
+      r.vel.y = -random(2, 4);
+      r.pos.y = umbrella.y - 5;
+
+      if (!dropSound.isPlaying()) dropSound.play();
     }
 
     image(rainImg, r.pos.x, r.pos.y, 30, 40);
   }
 }
 
-// --- Create Raindrop Function ---
+
 function createRaindrop() {
   return {
     pos: createVector(random(width), random(-400, 0)),
     vel: createVector(0, random(3, 7)),
-    radius: 10,
   };
 }
 
-// --- Handpose results ---
 function gotHands(results) {
   hands = results;
 
@@ -103,10 +142,7 @@ function gotHands(results) {
   }
 }
 
-// --- Resize canvas when window size changes ---
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-
-  // Resize video too
-  video.size(windowWidth, windowHeight);
+  resizeCanvas(windowWidth, windowHeight * 0.7);
+  video.size(windowWidth, windowHeight * 0.7);
 }
