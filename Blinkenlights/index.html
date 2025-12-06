@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rhythmic Patterns Documentation</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #eee;
+      margin: 0;
+      padding: 40px;
+      line-height: 1.6;
+    }
+
+    h1, h2 {
+      color: #fff;
+      border-bottom: 1px solid #444;
+      padding-bottom: 6px;
+    }
+
+    .pattern {
+      margin-top: 40px;
+      padding: 20px;
+      background: #1a1a1a;
+      border-radius: 10px;
+    }
+
+    video {
+      width: 100%;
+      max-width: 650px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    img {
+      width: 100%;
+      max-width: 650px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    .process {
+      margin-top: 15px;
+      padding: 15px;
+      background: #222;
+      border-left: 4px solid #666;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Rhythmic Patterns Documentation</h1>
+  <p>This page shows the three rhythmic LED patterns I created using the ESP32. Each section includes a video and a short explanation of my process.</p>
+
+
+
+  <!-- PATTERN 1 -->
+<div class="pattern">
+  <h2>Pattern 1 – Morse Code with My Name</h2>
+
+  <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start;">
+    
+    <!-- 이미지 -->
+    <img src="images/morse.png" alt="Morse code chart"
+         style="width: 45%; min-width: 260px; border-radius: 10px;">
+
+    <!-- 영상 -->
+    <video controls style="width: 45%; min-width: 260px;">
+      <source src="videos/pattern1.mp4" type="video/mp4">
+    </video>
+
+  </div>
+
+  <div class="process">
+    <h3>Process</h3>
+    <p>
+      For this pattern, I used Morse code to show my name with LED blinking. 
+      Each dot and dash becomes a short or long blink.
+      I wanted to try a pattern that feels personal, so I thought using my name would be interesting.
+    </p>
+  </div>
+</div>
+
+
+
+
+  <!-- PATTERN 2 -->
+  <div class="pattern">
+    <h2>Pattern 2 – Blink with Potentiometer Speed Control</h2>
+
+    <video controls>
+      <source src="videos/pattern2.mov" type="video/mp4">
+      <source src="videos/pattern2.mov" type="video/quicktime">
+      Your browser does not support the video tag.
+    </video>
+
+    <div class="process">
+      <h3>Process</h3>
+      <p>
+        In this pattern, I made a simple blink rhythm and connected a potentiometer to control the speed.
+        When I turn the knob, the LED blinks faster or slower.  
+        This helped me understand how analog input can change the rhythm in real time and how interaction can shape the pattern.
+      </p>
+    </div>
+  </div>
+
+
+
+
+  <!-- PATTERN 3 -->
+<div class="pattern">
+  <h2>Pattern 3 – Button Rhythm Change</h2>
+
+  <video controls>
+    <source src="videos/pattern3.mov" type="video/quicktime">
+  </video>
+
+  <div class="process">
+    <h3>Process</h3>
+    <p>
+      I used a push button to change the LED rhythm.  
+      Each press switches to a different pattern. 
+      This helped me explore how interaction can control timing and rhythm.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
