@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Multi Music Controller</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #111; color: #eee; }
+    header, main { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+    header { padding: 40px 0 10px; }
+    h1 { margin: 0 0 8px; font-size: 32px; }
+    p { line-height: 1.6; color: #cfcfcf; }
+    section { margin-top: 34px; padding-top: 18px; border-top: 1px solid #2a2a2a; }
+    h2 { font-size: 22px; margin: 0 0 12px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 860px) { .grid { grid-template-columns: 1fr 1fr; } }
+    .card { background: #171717; border: 1px solid #2a2a2a; border-radius: 14px; padding: 16px; }
+    img, video { width: 100%; border-radius: 12px; border: 1px solid #2a2a2a; }
+    pre { background: #0b0b0b; border: 1px solid #2a2a2a; border-radius: 12px; padding: 14px; overflow: auto; }
+    code { color: #ddd; }
+    .tag { display:inline-block; padding: 4px 10px; border:1px solid #2a2a2a; border-radius: 999px; margin-right: 8px; color:#ddd; font-size: 12px; }
+    .small { font-size: 13px; color: #bdbdbd; }
+    ul { line-height: 1.7; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Multi Music Controller</h1>
+    <p class="small">
+      ESP32 (4 buttons + 1 potentiometer) → Serial → Processing (drum samples + background track + UI)
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>1. Overview</h2>
+      <div class="card">
+        <p>
+          This project builds a simple performance controller using an ESP32 and a Processing sketch.
+          The ESP32 sends sensor values over serial communication, and Processing uses those values to trigger sounds and control audio parameters.
+        </p>
+        <p>
+          <span class="tag">B1</span> Kick trigger
+          <span class="tag">B2</span> Closed hi-hat trigger
+          <span class="tag">B3</span> Hi-hat trigger
+          <span class="tag">B4</span> Background track (peaches) ON/OFF toggle
+          <span class="tag">Pot</span> Background volume (continuous control)
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. Demo Video</h2>
+      <div class="card">
+        <video controls src="video/demo.mp4"></video>
+        <p class="small">
+          Demo: drum triggers (B1–B3), background toggle (B4), and volume changes using the potentiometer.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>3. Photos</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="asset/box.png" alt="box photo">
+          <p class="small">Enclosure / box (breadboard hidden inside)</p>
+        </div>
+        <div class="card">
+          <img src="asset/potentiometer.png" alt="potentiometer photo">
+          <p class="small">Potentiometer outside the box (volume control)</p>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top:16px;">
+        <div class="card">
+          <img src="asset/wiring.png" alt="wiring photo">
+          <p class="small">Wiring (ESP32 + breadboard + button connections)</p>
+        </div>
+        <div class="card">
+          <img src="asset/UI.png" alt="processing UI screenshot">
+          <p class="small">Processing UI (visual feedback for parameters)</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. System Diagram</h2>
+      <div class="card">
+        <pre><code>ESP32 (Buttons + Pot)  --Serial-->  Processing
+sends: b1,b2,b3,b4,pot            plays: drum samples + BG track (peaches)
+                                  shows: UI (BG state, volume meter, triggers)</code></pre>
+        <p class="small">Serial message example: <code>0,1,0,1,2350</code></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>5. UI Design</h2>
+      <div class="card">
+        <ul>
+          <li><b>What is being controlled:</b> background track ON/OFF and background volume.</li>
+          <li><b>How the value changes:</b> the volume meter and numeric value update in real time as the potentiometer rotates.</li>
+          <li><b>Event feedback:</b> when B1–B3 are pressed, the UI briefly highlights the triggered drum sound.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+  <h2>6. Design Decisions</h2>
+  <div class="card">
+    <p>
+      I designed this controller for solo use, like a simple personal performance tool.
+      The interaction is easy to learn: buttons are for quick triggers and toggles, and the potentiometer is for continuous control.
+      I focused on a light beat / drum setup (kick and hi-hats) plus one background track, so the system feels clear and playable.
+      I placed the potentiometer outside the box for better ergonomics, while keeping the breadboard hidden inside to protect the wiring.
+    </p>
+  </div>
+</section>
+
+  </main>
+</body>
+</html>
