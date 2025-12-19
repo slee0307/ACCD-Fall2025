@@ -10,9 +10,13 @@
     <!-- ml5.js -->
     <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
 
     <style>
+      body {
+        font-family: Krungthep;
+      }
+
       #canvas-holder {
         width: 100%;
         display: flex;
@@ -29,28 +33,10 @@
         font-family: Krungthep;
       }
 
-      body {
-      font-family: Krungthep;
-      }
-
-      #sound-btn {
-      font-family: "Krungthep", sans-serif; /* 원하는 폰트로 바꿔 */
-      font-size: 10px;                     /* 글자 크기 */
-      font-weight: 600;                    /* 두께 */
-      padding: 12px 30px;                  
-      border-radius: 12px;                 
-      background: rgb(65, 120, 198);
-      color: white;
-      border: none;
-      cursor: pointer;
-}
-
-  
-
-      /* 🔊 Sound Button */
+      /* 🔊 Sound Button (하나만 남김: 검정 버튼 버전) */
       #sound-btn {
         display: block;
-        margin: 15px auto 30px auto;
+        margin: 15px auto 20px auto;
         padding: 10px 20px;
         font-size: 16px;
         border-radius: 8px;
@@ -58,6 +44,8 @@
         background: #333;
         color: white;
         cursor: pointer;
+        font-family: "Krungthep", sans-serif;
+        font-weight: 600;
       }
       #sound-btn:hover {
         background: #555;
@@ -66,10 +54,26 @@
       /* 🌧 Rain Slider */
       #slider-holder {
         text-align: center;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
         font-size: 16px;
       }
 
+      /* 🧩 Project Overview block */
+      #project-info {
+        width: 80%;
+        margin: 30px auto 10px auto;
+        line-height: 1.6;
+        color: #222;
+      }
+      #project-info ul {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      #project-info li {
+        margin-bottom: 6px;
+      }
+
+      /* 📘 Documentation */
       #documentation {
         width: 80%;
         margin: 40px auto;
@@ -81,6 +85,7 @@
         flex-wrap: wrap;
         margin-bottom: 30px;
       }
+
       .doc-img {
         width: 500px;
         border-radius: 10px;
@@ -90,7 +95,6 @@
   </head>
 
   <body>
-
     <div id="canvas-holder"></div>
     <div id="instruction">Use your hand to avoid the rain ☔️</div>
 
@@ -100,27 +104,61 @@
     <!-- 🌧 Rain intensity slider -->
     <div id="slider-holder">
       Rain intensity:
-      <input type="range" id="rain-slider" min="5" max="60" value="20">
+      <input type="range" id="rain-slider" min="5" max="60" value="20" />
     </div>
+
+    <!-- ✅ Project explanation (이게 “설명” 파트) -->
+    <section id="project-info">
+      <h2>🧩 Project Overview</h2>
+
+      <p>
+        This project is an interactive hand-tracking experience where you use
+        your hand to avoid falling rain. The goal is simple: keep your hand safe
+        by moving it around the screen as the rain gets heavier.
+      </p>
+
+      <h3>Concept</h3>
+      <p>
+        I wanted to make a small playable piece that turns a natural element
+        (rain) into a digital challenge. It mixes a calm atmosphere with a
+        slightly stressful task, so the viewer can feel the tension between
+        nature and control.
+      </p>
+
+      <h3>Interaction</h3>
+      <ul>
+        <li>Move your hand in front of the camera to control the hand position on the canvas.</li>
+        <li>Try to avoid the falling rain drops.</li>
+        <li>Use the slider to change the rain intensity (more drops = harder).</li>
+        <li>Click the button to turn on sound for a more immersive experience.</li>
+      </ul>
+
+      <h3>How it works</h3>
+      <p>
+        The system uses a webcam and hand tracking (ml5.js) to detect hand
+        movement. The tracked hand position is sent into a p5.js sketch, which
+        draws the rain and checks collisions. Sound is handled with p5.sound and
+        starts only after the user presses the sound button.
+      </p>
+    </section>
 
     <section id="documentation">
       <h2>📘 Project Documentation</h2>
 
       <h3>System Diagram</h3>
       <div class="img-row">
-        <img src="assets/diagram1.png" class="doc-img">
+        <img src="assets/diagram1.png" class="doc-img" alt="System diagram" />
       </div>
 
       <h3>Process Screenshots</h3>
       <div class="img-row">
-        <img src="assets/process1.png" class="doc-img">
-        <img src="assets/process2.png" class="doc-img">
-        <img src="assets/process3.png" class="doc-img">
-        <img src="assets/process4.png" class="doc-img">
+        <img src="assets/process1.png" class="doc-img" alt="Process 1" />
+        <img src="assets/process2.png" class="doc-img" alt="Process 2" />
+        <img src="assets/process3.png" class="doc-img" alt="Process 3" />
+        <img src="assets/process4.png" class="doc-img" alt="Process 4" />
       </div>
     </section>
 
     <script src="sketch.js"></script>
-
   </body>
 </html>
