@@ -4,42 +4,145 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Multi Music Controller</title>
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #111; color: #eee; }
-    header, main { max-width: 980px; margin: 0 auto; padding: 0 20px; }
-    header { padding: 40px 0 10px; }
-    h1 { margin: 0 0 8px; font-size: 32px; }
-    p { line-height: 1.6; color: #cfcfcf; }
-    section { margin-top: 34px; padding-top: 18px; border-top: 1px solid #2a2a2a; }
-    h2 { font-size: 22px; margin: 0 0 12px; }
-    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-    @media (min-width: 860px) { .grid { grid-template-columns: 1fr 1fr; } }
-    .card { background: #171717; border: 1px solid #2a2a2a; border-radius: 14px; padding: 16px; }
-    img, video { width: 100%; border-radius: 12px; border: 1px solid #2a2a2a; }
-    pre { background: #0b0b0b; border: 1px solid #2a2a2a; border-radius: 12px; padding: 14px; overflow: auto; }
-    code { color: #ddd; }
-    .tag { display:inline-block; padding: 4px 10px; border:1px solid #2a2a2a; border-radius: 999px; margin-right: 8px; color:#ddd; font-size: 12px; }
-    .small { font-size: 13px; color: #bdbdbd; }
-    ul { line-height: 1.7; }
+    :root{
+      --bg:#0f0f10;
+      --card:#151516;
+      --stroke:#2a2a2a;
+      --text:#e9e9e9;
+      --muted:#bdbdbd;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family: Arial, sans-serif;
+    }
+    header, main{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    header{ padding: 40px 0 12px; }
+    h1{ margin:0 0 8px; font-size:32px; }
+    h2{ margin:0 0 12px; font-size:22px; }
+    p{ margin: 10px 0 0; line-height:1.6; color:#d0d0d0; }
+    section{
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid var(--stroke);
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:16px;
+      padding:16px;
+    }
+    .small{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:10px;
+    }
+    .tag{
+      display:inline-block;
+      padding:4px 10px;
+      border:1px solid var(--stroke);
+      border-radius:999px;
+      margin: 6px 8px 0 0;
+      color:#ddd;
+      font-size:12px;
+    }
+
+    /* Media */
+    img, video{
+      width:100%;
+      display:block;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background:#0c0c0c;
+    }
+
+    /* ===== Photos layout: TRUE 2x2, equal card heights ===== */
+    .photos-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:16px;
+    }
+    @media (min-width: 860px){
+      .photos-grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Every photo card uses the same image box height */
+    .photo-card .imgbox{
+      width:100%;
+      height: 260px;          /* equal size for all main photos */
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid var(--stroke);
+      background:#0c0c0c;
+    }
+    .photo-card .imgbox img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      border:none;
+      border-radius:0;
+    }
+
+    /* Potentiometer card has TWO images: 1 big + 1 smaller */
+    .photo-card .imgbox.small{
+      height: 200px;          /* second image smaller */
+      margin-top: 12px;
+    }
+    .photo-card .imgbox.small img{
+      object-fit: contain;    /* show soldering clearly */
+      background:#0c0c0c;
+    }
+
+    /* Enclosure crop tweak (center it more) */
+    .photo-card .imgbox.enclosure img{
+  object-position: center ;
+}
+
+    /* Hero image */
+    .hero{ margin-top:16px; }
+    .hero img{ border-radius:16px; }
+
+    /* Code block */
+    pre{
+      background:#0b0b0b;
+      border:1px solid var(--stroke);
+      border-radius:12px;
+      padding:14px;
+      overflow:auto;
+      margin:0;
+    }
+    code{ color:#ddd; }
+    ul{ margin:10px 0 0; line-height:1.7; color:#d0d0d0; }
   </style>
 </head>
 
 <body>
   <header>
     <h1>Multi Music Controller</h1>
-    <p class="small">
-      ESP32 (4 buttons + 1 potentiometer) → Serial → Processing (drum samples + background track + UI)
-    </p>
+    <p class="small">ESP32 (4 buttons + 1 potentiometer) → Serial → Processing (drum samples + background track + UI)</p>
   </header>
 
   <main>
+
     <section>
       <h2>1. Overview</h2>
       <div class="card">
         <p>
-          This project builds a simple performance controller using an ESP32 and a Processing sketch.
-          The ESP32 sends sensor values over serial communication, and Processing uses those values to trigger sounds and control audio parameters.
+          This project is a simple performance controller using an ESP32 and a Processing sketch.
+          The ESP32 sends sensor values over serial communication, and Processing uses those values to trigger sounds
+          and control audio parameters in real time.
         </p>
+
         <p>
           <span class="tag">B1</span> Kick trigger
           <span class="tag">B2</span> Closed hi-hat trigger
@@ -48,40 +151,66 @@
           <span class="tag">Pot</span> Background volume (continuous control)
         </p>
       </div>
+
+      <div class="card hero">
+        <img src="asset/hero.png" alt="project hero image">
+        <p class="small">Main photo of the controller</p>
+      </div>
     </section>
 
     <section>
       <h2>2. Demo Video</h2>
       <div class="card">
-        <video controls src="video/demo.mp4"></video>
-        <p class="small">
-          Demo: drum triggers (B1–B3), background toggle (B4), and volume changes using the potentiometer.
-        </p>
+        <video controls playsinline>
+          <source src="video/demo.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <p class="small">Demo: drum triggers (B1–B3), background toggle (B4), and volume changes using the potentiometer.</p>
       </div>
     </section>
 
     <section>
       <h2>3. Photos</h2>
-      <div class="grid">
-        <div class="card">
-          <img src="asset/box.png" alt="box photo">
+
+      <div class="photos-grid">
+
+        <!-- 1) Enclosure -->
+        <div class="card photo-card">
+          <div class="imgbox enclosure">
+            <img src="asset/box.png" alt="Enclosure / box">
+          </div>
           <p class="small">Enclosure / box (breadboard hidden inside)</p>
         </div>
-        <div class="card">
-          <img src="asset/potentiometer.png" alt="potentiometer photo">
-          <p class="small">Potentiometer outside the box (volume control)</p>
-        </div>
-      </div>
 
-      <div class="grid" style="margin-top:16px;">
-        <div class="card">
-          <img src="asset/wiring.png" alt="wiring photo">
+        <!-- 2) Potentiometer (two images in one card) -->
+        <div class="card photo-card">
+          <div class="imgbox">
+            <img src="asset/potentiometer.png" alt="Potentiometer outside the box">
+          </div>
+          <p class="small">Potentiometer outside the box (volume control)</p>
+
+          <div class="imgbox small">
+            <img src="asset/potentiometer2.png" alt="Potentiometer connection (soldering)">
+          </div>
+          <p class="small">Potentiometer connection (soldering)</p>
+        </div>
+
+        <!-- 3) Wiring -->
+        <div class="card photo-card">
+          <div class="imgbox">
+            <img src="asset/wiring.png" alt="Wiring">
+          </div>
           <p class="small">Wiring (ESP32 + breadboard + button connections)</p>
         </div>
-        <div class="card">
-          <img src="asset/UI.png" alt="processing UI screenshot">
+
+        <!-- 4) UI -->
+        <div class="card photo-card">
+          <div class="imgbox">
+            <img src="asset/UI.png" alt="Processing UI">
+          </div>
           <p class="small">Processing UI (visual feedback for parameters)</p>
         </div>
+
       </div>
     </section>
 
@@ -101,22 +230,22 @@ sends: b1,b2,b3,b4,pot            plays: drum samples + BG track (peaches)
         <ul>
           <li><b>What is being controlled:</b> background track ON/OFF and background volume.</li>
           <li><b>How the value changes:</b> the volume meter and numeric value update in real time as the potentiometer rotates.</li>
-          <li><b>Event feedback:</b> when B1–B3 are pressed, the UI briefly highlights the triggered drum sound.</li>
+          <li><b>Event feedback:</b> when B1–B3 are pressed, the UI highlights the triggered drum sound.</li>
         </ul>
       </div>
     </section>
 
     <section>
-  <h2>6. Design Decisions</h2>
-  <div class="card">
-    <p>
-      I designed this controller for solo use, like a simple personal performance tool.
-      The interaction is easy to learn: buttons are for quick triggers and toggles, and the potentiometer is for continuous control.
-      I focused on a light beat / drum setup (kick and hi-hats) plus one background track, so the system feels clear and playable.
-      I placed the potentiometer outside the box for better ergonomics, while keeping the breadboard hidden inside to protect the wiring.
-    </p>
-  </div>
-</section>
+      <h2>6. Design Decisions</h2>
+      <div class="card">
+        <p>
+          I designed this controller for solo use, like a simple personal performance tool.
+          Buttons are used for quick triggers and toggles, and the potentiometer is used for continuous control (volume).
+          I chose a basic drum setup plus one background track to keep the system clear and playable.
+          For ergonomics, the potentiometer is placed outside the box, while the breadboard stays hidden inside to protect the wiring.
+        </p>
+      </div>
+    </section>
 
   </main>
 </body>
