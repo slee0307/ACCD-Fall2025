@@ -16,7 +16,7 @@
       overflow-x: hidden;
     }
 
-    /* === 상단 애니메이션 섹션 === */
+    /* === Top animation section === */
     header {
       position: relative;
       width: 100%;
@@ -40,6 +40,7 @@
     #sketch-holder canvas {
       width: 100% !important;
       height: 100% !important;
+      display: block;
     }
 
     header h1 {
@@ -48,9 +49,11 @@
       font-size: 3rem;
       margin: 0;
       text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+      text-align: center;
+      padding: 0 16px;
     }
 
-    /* === 프로세스 슬라이더 === */
+    /* === Process slider section === */
     section {
       position: relative;
       z-index: 1;
@@ -75,17 +78,18 @@
       margin-bottom: 40px;
     }
 
-    /* 슬라이드 컨테이너 */
     .slider {
       position: relative;
       width: 100%;
       overflow: hidden;
+      padding: 10px 0;
     }
 
     .slide {
       display: none;
       flex-direction: column;
       align-items: center;
+      gap: 14px;
     }
 
     .slide.active {
@@ -95,23 +99,25 @@
     .slide img {
       width: 100%;
       max-width: 700px;
+      height: auto;
       border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      display: block;
     }
 
     .caption {
-      margin-top: 15px;
+      margin: 0;
       color: #e0e6f0;
       font-size: 1.1rem;
       line-height: 1.5;
     }
 
-    /* 화살표 버튼 */
+    /* Arrow buttons */
     .arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.12);
       color: #fff;
       border: none;
       font-size: 2rem;
@@ -120,84 +126,110 @@
       border-radius: 50%;
       cursor: pointer;
       transition: background 0.3s;
+      z-index: 5; /* make sure buttons stay on top of images */
+      display: grid;
+      place-items: center;
     }
 
     .arrow:hover {
       background: rgba(255, 255, 255, 0.25);
     }
 
-    .arrow.right {
-      right: 20px;
-    }
+    .arrow.right { right: 20px; }
+    .arrow.left  { left: 20px; }
 
-    .arrow.left {
-      left: 20px;
+    /* Mobile tweaks */
+    @media (max-width: 600px) {
+      header h1 { font-size: 2rem; }
+      section { margin: 30px 14px; padding: 22px; }
+      .arrow { width: 44px; height: 44px; font-size: 1.6rem; }
+      p.lead { margin-bottom: 24px; }
     }
   </style>
 </head>
 
 <body>
-  <!-- 🌍 애니메이션 섹션 -->
+  <!-- 🌍 Animation section -->
   <header>
     <div id="sketch-holder"></div>
     <h1>🌍 Earth & Moon Motion Rhythm</h1>
   </header>
 
-  <!-- 🪐 프로세스 슬라이드 -->
- <div class="slide active">
-  <img src="./iteration/iteration1.png" alt="Step 1">
-  <p class="caption"><strong>Step 1 —</strong> Built the base layout and overall scene setup.</p>
-</div>
+  <!-- 🪐 Process slider -->
+  <section>
+    <h2>Process Documentation</h2>
+    <p class="lead">View each stage of the project by clicking the arrow.</p>
 
-<div class="slide">
-  <img src="./iteration/iteration2.png" alt="Step 2">
-  <p class="caption"><strong>Step 2 —</strong> Inserted the Earth image (encountered an import error).</p>
-</div>
+    <div class="slider">
+      <button class="arrow left" type="button" aria-label="Previous" onclick="prevSlide()">&#8592;</button>
 
-<div class="slide">
-  <img src="./iteration/iteration3.png" alt="Step 3">
-  <p class="caption"><strong>Step 3 —</strong> Added the Earth successfully and implemented a twinkling star background.</p>
-</div>
+      <div class="slide active">
+        <img src="./iteration/iteration1.png" alt="Step 1">
+        <p class="caption"><strong>Step 1 —</strong> Built the base layout and overall scene setup.</p>
+      </div>
 
-<div class="slide">
-  <img src="./iteration/iteration4.png" alt="Step 4">
-  <p class="caption"><strong>Step 4 —</strong> Introduced the Moon image to orbit the Earth.</p>
-</div>
+      <div class="slide">
+        <img src="./iteration/iteration2.png" alt="Step 2">
+        <p class="caption"><strong>Step 2 —</strong> Inserted the Earth image (encountered an import error).</p>
+      </div>
 
-<div class="slide">
-  <img src="./iteration/iteration5.png" alt="Step 5">
-  <p class="caption"><strong>Step 5 —</strong> Removed the Moon’s black background and adjusted its motion speed.</p>
-</div>
+      <div class="slide">
+        <img src="./iteration/iteration3.png" alt="Step 3">
+        <p class="caption"><strong>Step 3 —</strong> Added the Earth successfully and implemented a twinkling star background.</p>
+      </div>
 
-<div class="slide">
-  <img src="./iteration/iteration6.png" alt="Step 6">
-  <p class="caption"><strong>Step 6 —</strong> Refined the title placement and finalized the composition.</p>
-</div>
+      <div class="slide">
+        <img src="./iteration/iteration4.png" alt="Step 4">
+        <p class="caption"><strong>Step 4 —</strong> Introduced the Moon image to orbit the Earth.</p>
+      </div>
 
+      <div class="slide">
+        <img src="./iteration/iteration5.png" alt="Step 5">
+        <p class="caption"><strong>Step 5 —</strong> Removed the Moon’s black background and adjusted its motion speed.</p>
+      </div>
 
-      <button class="arrow right" onclick="nextSlide()">&#8594;</button>
+      <div class="slide">
+        <img src="./iteration/iteration6.png" alt="Step 6">
+        <p class="caption"><strong>Step 6 —</strong> Refined the title placement and finalized the composition.</p>
+      </div>
+
+      <button class="arrow right" type="button" aria-label="Next" onclick="nextSlide()">&#8594;</button>
     </div>
   </section>
 
   <script>
     let current = 0;
-    const slides = document.querySelectorAll(".slide");
+
+    function getSlides() {
+      return document.querySelectorAll(".slide");
+    }
 
     function showSlide(index) {
+      const slides = getSlides();
       slides.forEach((slide, i) => {
         slide.classList.toggle("active", i === index);
       });
     }
 
     function nextSlide() {
+      const slides = getSlides();
+      if (!slides.length) return;
       current = (current + 1) % slides.length;
       showSlide(current);
     }
 
     function prevSlide() {
+      const slides = getSlides();
+      if (!slides.length) return;
       current = (current - 1 + slides.length) % slides.length;
       showSlide(current);
     }
+
+    // Optional: keyboard control
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") nextSlide();
+      if (e.key === "ArrowLeft") prevSlide();
+    });
   </script>
 </body>
 </html>
