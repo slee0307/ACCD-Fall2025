@@ -24,6 +24,7 @@
       "type": "video",
       "title": "Mood Conductor",
       "file": "mood_conductor.mov",
+      "youtube": "UfMzmrSV7N8",
       "thumb": "mood_conductor.jpg",
       "description": "Mood Conductor (2025) is an interactive music system that allows users to select and perform emotional states through hand-tracking gestures. Using MediaPipe-based tracking and real-time mapping, the user’s movement functions like conducting, shifting musical atmosphere by controlling parameters such as volume, intensity, and preset switching in Ableton.\n\nThe work focuses on the translation between bodily gesture and emotional sound. Instead of treating emotion as a fixed label, the system emphasizes transition and modulation. A single gesture can gradually move the composition from one mood to another, highlighting how affect can be experienced as a spectrum rather than a discrete state.\n\nBy combining live input with immediate sonic feedback, Mood Conductor explores how interactive systems can externalize internal feeling, and how digital tools can shape the way we express, perform, and recognize emotion in real time."
     },
@@ -32,6 +33,7 @@
       "type": "video",
       "title": "Gate",
       "file": "trailer.mp4",
+      "youtube": "CHAmK8H6ghw",
       "thumb": "trailer.jpg",
       "description": "Gate (2023) presents a curated overview of my practice across moving image, interactive systems, and digital environments. It brings together key visual motifs and project fragments to establish a cohesive view of my interests, including mediated nature, interface-driven perception, and real-time transformation.\n\nDesigned as an entry point, the work offers a concise sense of how my projects move between documentation and constructed imagery, and how computational tools function as both material and method within my process."
     },
@@ -40,6 +42,7 @@
       "type": "video",
       "title": "0000000",
       "file": "fmp.mp4",
+      "youtube": "l6OKzIDDDF4",
       "thumb": "fmp.jpg",
       "description": "0000000 (2023) was developed from reflections on contemporary life, where perception is increasingly shaped by screens, devices, and data. Even when engaging with the natural world, we often encounter it through cameras and digital interfaces. This project responds to that condition by extending the visual representation of nature beyond straightforward capture, proposing digitally rendered landscapes that can feel as compelling as physical reality.\n\nConceptually, the work links fundamental units across different systems: the cell as a basic unit of life, particles as basic units in physics, and the 8-bit structure as a foundational unit in computing. By connecting these “smallest elements,” the project frames the idea of virtual space as something built from modular components, where life, matter, and data can be understood through parallel structures.\n\nThrough a digital composition process, the work explores interrelation rather than separation. It proposes that humanity is not outside nature but embedded within it, and that digital systems are now part of how we perceive, reconstruct, and imagine natural environments."
     },
@@ -48,6 +51,7 @@
       "type": "video",
       "title": "Sound in Your Hands",
       "file": "hand_tracking.mp4",
+      "youtube": "g-zxB0aLuqU",
       "thumb": "hand_tracking.jpg",
       "description": "Sound in Your Hands (2025) is an interactive study using MediaPipe-based hand tracking to control musical parameters in real time. The project maps hand movement to changes such as volume control and switching between different sound states, testing how gesture can function as a practical interface for live performance.\n\nRather than treating the hand as a simple input device, the work focuses on expressiveness and responsiveness. It examines how subtle variations in movement can create perceptible shifts in sound, and how an interface can support an embodied sense of control.\n\nAs an experiment, this project also functions as a technical and conceptual foundation for later works that connect affect, motion, and live sound systems."
     },
@@ -56,6 +60,7 @@
       "type": "video",
       "title": "Digital Drift",
       "file": "partical.mp4",
+      "youtube": "nCXRd7bdIuc",
       "thumb": "partical.jpg",
       "description": "Digital Drift (2023) explores the persistent overlap between natural and digital environments. Even when we seek rest or refuge in nature, our devices remain present, tracking location and extending digital connection into physical space. The work begins from this tension and asks what it means to experience nature through systems that continuously measure, translate, and mediate it.\n\nUsing this premise, the project transforms natural imagery into particle-based visual structures. The particle aesthetic becomes a metaphor for how contemporary experience is often broken into units, processed, and reconstructed. By rendering nature through computational particles, the work suggests both beauty and distance: nature remains visually present, yet it is also filtered into a digital language.\n\nUltimately, the project emphasizes balance. It considers how we might coexist with these two spaces without treating them as opposites, and how digital mediation can reshape not only how we see nature, but how we understand our relationship to it."
     },
@@ -64,6 +69,7 @@
       "type": "video",
       "title": "Familiar, Unfamiliar",
       "file": "unreal.mp4",
+      "youtube": "8q2bFmGtuGE",
       "thumb": "unreal.jpg",
       "description": "Familiar, Unfamiliar (2025) is a digital environment constructed in Unreal Engine that aims to evoke an uncanny sensation of familiarity and distortion. The world is composed using recognizable objects and natural references, but the logic of the space is intentionally altered through changes in gravity, scale, and proportion.\n\nBy shifting physical rules, the environment produces subtle instability: objects float differently than expected, sizes feel inconsistent, and the relationship between the body and the world becomes uncertain. These adjustments function as a method for questioning how perception and emotion change when a place looks familiar but behaves in unfamiliar ways.\n\nThrough an altered world that still feels almost believable, the project invites viewers to consider how quickly “normal” reality can become strange when its underlying rules are reconfigured."
     },
@@ -80,10 +86,10 @@
       "type": "video",
       "title": "Unknown World",
       "file": "unknown_world.mp4",
+      "youtube": "WDX9PpEYAKY",
       "thumb": "unknown_world.jpg",
       "description": "Unknown World was developed from footage gathered during my travels, where I often documented natural scenery through a camera or iPhone. Using a node-based digital program, I reconstructed these scenes to form a personal perspective on nature, shaped by transformation rather than direct reproduction.\n\nThe project engages the reality that digital devices are inseparable from daily life. Even when we encounter nature, we frequently experience it through a mediated process of recording, viewing, and editing. From this condition, Unknown World aims to bridge distance: between those who cannot access nature firsthand and those who may not initially seek it out.\n\nBy enabling rewinding, shifting color palettes, and manipulating space and time, the work proposes an alternative encounter with nature. Instead of presenting landscapes in a documentary style, it offers a digitally constructed nature that can feel equally captivating while emphasizing customization, immersion, and the possibility of experiencing place through virtual and computational means."
     },
-
     {
       "id": "ascii",
       "type": "video",
@@ -140,7 +146,6 @@
       "thumb": "yanya.jpg",
       "description": "This collaborative video was created with Central Saint Martins MA Womenswear designer Yanya Cheng. Through generative methods, I reinterpreted one garment from her collection within a digital environment.\n\nYanya’s work draws from AI algorithms and pixel-based imagery, using straight lines and angular shapes to emphasize recurring rectangular motifs. I translated these qualities into a consistent digital visual structure, where elements are deconstructed and reassembled in real time.\n\nBy shifting the garment from a physical object into a computational form, the project highlights fashion as a transformable system and proposes how digital tools can expand design language through dynamic reconfiguration."
     },
-
     {
       "id": "graphic1",
       "type": "image",
@@ -157,7 +162,6 @@
       "thumb": "graphic2.jpg",
       "description": "Graphic 2 is a graphic experiment that begins with photo-based collage and translates it into a digital format.\n\nBy recombining textures and layered structures through digital editing, the work captures an earlier visual style while connecting it to my current image-making approach."
     },
-
     {
       "id": "g_person1",
       "type": "image",
@@ -182,7 +186,6 @@
       "thumb": "g_person3.jpg",
       "description": "Person Study 3 is a visual study that explores transformations of the human figure through form, texture, and color.\n\nRather than emphasizing portrait likeness, the work treats the figure as material—focusing on surface, distortion, and shifts in atmosphere produced through digital manipulation."
     },
-
     {
       "id": "pink",
       "type": "image",
@@ -207,7 +210,6 @@
       "thumb": "yellow.jpg",
       "description": "Yellow is a color-centered visual experiment that studies how palette and tone shape emotional impression.\n\nA simplified human figure—without facial expression—is held within the frame to emphasize presence through color and form rather than personality or narrative."
     },
-
     {
       "id": "memory1",
       "type": "image",

@@ -8,7 +8,7 @@
   <style>
     html, body { margin:0; height:100%; overflow:hidden; background:#0b0b16; }
 
-    /* 캔버스는 로딩 끝나고 페이드 인 */
+    /* canvas fade-in */
     canvas{
       display:block;
       opacity:0;
@@ -42,6 +42,7 @@
       font-family: system-ui, -apple-system, sans-serif;
       color: #eaeaea;
     }
+
     #mediaWrap{
       background:#000;
       display:flex;
@@ -49,7 +50,15 @@
       align-items:center;
     }
 
-    /* Local video */
+    /* YouTube iframe */
+    #ytFrame{
+      width:100%;
+      aspect-ratio: 16 / 9;
+      border:0;
+      display:none;
+      background:#000;
+    }
+
     #workVideo{
       width:100%;
       height:auto;
@@ -57,16 +66,6 @@
       background:#000;
     }
 
-    /* YouTube iframe */
-    #workYouTube{
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      display: none;
-      border: 0;
-      background: #000;
-    }
-
-    /* Image */
     #workImage{
       display:none;
       max-width: min(860px, 92vw);
@@ -98,7 +97,7 @@
       backdrop-filter: blur(8px);
     }
 
-    /* ===== Loader: black screen only ===== */
+    /* Loader (black screen only) */
     #loader{
       position: fixed;
       inset: 0;
@@ -109,7 +108,6 @@
       background: #000;
       transition: opacity 1200ms ease, visibility 1200ms ease;
     }
-
     #loaderText{
       color: rgba(234,234,234,0.92);
       font-family: system-ui, -apple-system, sans-serif;
@@ -118,8 +116,6 @@
       text-align: center;
       user-select: none;
     }
-
-    /* typing cursor */
     #loaderText::after{
       content: "";
       display: inline-block;
@@ -148,16 +144,23 @@
     Click a card = open
   </div>
 
-  <!-- Loader -->
   <div id="loader" aria-hidden="false">
     <div id="loaderText"></div>
   </div>
 
-  <!-- Overlay -->
   <div id="overlay">
     <div id="panel">
       <div id="mediaWrap">
-        <!-- Local video -->
+
+        <!-- YouTube -->
+        <iframe
+          id="ytFrame"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+
+        <!-- Local video (optional fallback) -->
         <video
           id="workVideo"
           controls
@@ -168,18 +171,8 @@
           disablePictureInPicture
         ></video>
 
-        <!-- YouTube -->
-        <iframe
-          id="workYouTube"
-          title="YouTube player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
-
-        <!-- Image -->
         <img id="workImage" alt="" draggable="false" />
       </div>
-
       <div id="meta">
         <h2 id="workTitle"></h2>
         <p id="workDesc"></p>
@@ -222,48 +215,36 @@
     const overlay = document.getElementById("overlay");
     const closeBtn = document.getElementById("closeBtn");
     const workVideo = document.getElementById("workVideo");
-    const workYouTube = document.getElementById("workYouTube");
+    const ytFrame = document.getElementById("ytFrame");
     const workImage = document.getElementById("workImage");
     const workTitle = document.getElementById("workTitle");
     const workDesc  = document.getElementById("workDesc");
 
-    // ✅ 우클릭 저장(컨텍스트 메뉴) 막기: 영상/이미지
     workVideo.addEventListener("contextmenu", (e) => e.preventDefault());
     workImage.addEventListener("contextmenu", (e) => e.preventDefault());
 
     let isOverlayOpen = false;
     let focusedCard = null;
 
-    // ===== YouTube mapping (your links) =====
-    const YT = {
-      fmp: "l6OKzIDDDF4",
-      hand_tracking: "g-zxB0aLuqU",
-      mood_conductor: "UfMzmrSV7N8",
-      partical: "nCXRd7bdIuc",
-      trailer: "CHAmK8H6ghw",
-      unknown_world: "WDX9PpEYAKY",
-      unreal: "8q2bFmGtuGE"
-    };
-
-    function ytEmbed(id){
-      // privacy-friendly domain
-      return `https://www.youtube-nocookie.com/embed/${id}`;
-    }
-
     function resetMedia() {
       // local video
-      workVideo.pause();
+      try { workVideo.pause(); } catch(e){}
       workVideo.removeAttribute("src");
       workVideo.load();
       workVideo.style.display = "none";
 
       // youtube
-      workYouTube.removeAttribute("src");
-      workYouTube.style.display = "none";
+      ytFrame.removeAttribute("src");
+      ytFrame.style.display = "none";
 
       // image
       workImage.removeAttribute("src");
       workImage.style.display = "none";
+    }
+
+    function toYouTubeEmbed(id) {
+      // privacy-friendly domain
+      return "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0&modestbranding=1";
     }
 
     function openWork(card) {
@@ -277,18 +258,20 @@
       if (work.type === "image") {
         workImage.src = work.src;
         workImage.style.display = "block";
-      } else if (work.type === "youtube") {
-        workYouTube.src = work.src;
-        workYouTube.style.display = "block";
       } else {
-        // local video
-        workVideo.src = work.src;
-        workVideo.currentTime = 0;
-        workVideo.style.display = "block";
-
-        workVideo.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback");
-        workVideo.setAttribute("disablePictureInPicture", "");
-        workVideo.play().catch(()=>{});
+        // Prefer YouTube if provided
+        if (work.youtube) {
+          ytFrame.src = toYouTubeEmbed(work.youtube);
+          ytFrame.style.display = "block";
+        } else {
+          // fallback: local mp4/mov (only if you still have it)
+          workVideo.src = work.src;
+          workVideo.currentTime = 0;
+          workVideo.style.display = "block";
+          workVideo.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback");
+          workVideo.setAttribute("disablePictureInPicture", "");
+          workVideo.play().catch(()=>{});
+        }
       }
 
       overlay.style.display = "flex";
@@ -347,17 +330,17 @@
 
     // -------- MAIN INIT --------
     (async function init(){
-      // 0) typing 먼저
+      // 0) typing first
       await typeText(loaderTextEl, LOADER_LINE, 90);
 
-      // 1) Load manifest
+      // 1) Load manifest (root manifest.json)
       let manifest;
       try {
-        const res = await fetch("assets/manifest.json", { cache: "no-store" });
+        const res = await fetch("manifest.json", { cache: "no-store" });
         if (!res.ok) throw new Error("manifest fetch failed: " + res.status);
         manifest = await res.json();
       } catch (err) {
-        alert("Can't read assets/manifest.json. Check path / JSON syntax.");
+        alert("Can't read manifest.json. Check path / JSON syntax.");
         console.error(err);
         return;
       }
@@ -369,23 +352,24 @@
       const works = items.map(it => {
         const type = (it.type || "video").toLowerCase();
         const file = it.file || "";
-        const isImage = (type === "image");
+        const youtube = it.youtube || null;
 
-        const ytId = (!isImage && YT[it.id]) ? YT[it.id] : null;
+        const isImage = (type === "image");
+        const src = isImage ? ("assets/images/" + file) : ("assets/videos/" + file);
 
         return {
           id: it.id,
-          type: isImage ? "image" : (ytId ? "youtube" : "video"),
+          type: isImage ? "image" : "video",
           title: it.title || it.id,
           description: it.description || "",
-          src: isImage ? ("assets/images/" + file)
-                       : (ytId ? ytEmbed(ytId) : ("assets/videos/" + file)),
+          youtube: youtube,
+          src: src,
           thumb: it.thumb ? ("assets/thumbs/" + it.thumb) : null
         };
-      }).filter(w => w.id && w.src);
+      }).filter(w => w.id && (w.type === "image" ? !!w.src : (!!w.youtube || !!w.src)));
 
       if (!works.length) {
-        alert("manifest items are empty. Check assets/manifest.json!");
+        alert("manifest items is empty. Check manifest.json content.");
         return;
       }
 
@@ -415,7 +399,7 @@
 
       scene.add(new THREE.AmbientLight(0xffffff, 1));
 
-      // ====== Layout params ======
+      // placement parameters
       const CARD_COUNT    = Math.max(works.length, 90);
 
       const FRONT_Z       = 15;
@@ -423,7 +407,6 @@
       const INNER_R       = 25;
       const OUTER_R       = 60;
       const MIN_CAM_DIST  = 12;
-      // ==========================
 
       function randomInShell(r1, r2) {
         const a = Math.min(r1, r2);
@@ -551,7 +534,6 @@
         cards.push(mesh);
       }
 
-      // ✅ 로딩 → 페이드 인
       document.body.classList.add("revealed");
       setTimeout(hideLoader, 700);
 
@@ -720,7 +702,6 @@
             const overlayDim = isOverlayOpen ? 0.55 : 1.0;
             const isPriority = !!m.userData.isPriority;
 
-            // 가까워질수록 선명
             const near = THREE.MathUtils.clamp(1.0 - (dist - 12) / 22, 0, 1);
 
             const priorityOpacityMul = isPriority ? 1.0 : THREE.MathUtils.lerp(0.18, 1.0, near);
