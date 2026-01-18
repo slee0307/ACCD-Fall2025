@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Floating Works Space</title>
+
+  <style>
+    html, body { margin:0; height:100%; overflow:hidden; background:#0b0b16; }
+
+    /* 캔버스는 로딩 끝나고 페이드 인 */
+    canvas{
+      display:block;
+      opacity:0;
+      transition: opacity 1200ms ease;
+    }
+    body.revealed canvas{ opacity:1; }
+
+    #hint{
+      position:fixed; left:16px; top:16px; z-index:10;
+      color:#eaeaea; font-family:system-ui, -apple-system, sans-serif;
+      font-size:14px; opacity:0.85;
+      background:rgba(255,255,255,0.06);
+      padding:10px 12px; border-radius:12px;
+      backdrop-filter: blur(8px);
+      user-select:none; line-height:1.4;
+    }
+
+    #overlay{
+      position:fixed; inset:0; z-index:30;
+      display:none; align-items:center; justify-content:center;
+      background: rgba(8, 8, 16, 0.78);
+      backdrop-filter: blur(10px);
+    }
+    #panel{
+      width:min(980px, 92vw);
+      border-radius:18px;
+      overflow:hidden;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 20px 70px rgba(0,0,0,0.55);
+      font-family: system-ui, -apple-system, sans-serif;
+      color: #eaeaea;
+    }
+    #mediaWrap{
+      background:#000;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    /* Local video */
+    #workVideo{
+      width:100%;
+      height:auto;
+      display:none;
+      background:#000;
+    }
+
+    /* YouTube iframe */
+    #workYouTube{
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: none;
+      border: 0;
+      background: #000;
+    }
+
+    /* Image */
+    #workImage{
+      display:none;
+      max-width: min(860px, 92vw);
+      max-height: 78vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      margin: 0 auto;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    #meta{ padding: 14px 16px 18px 16px; }
+    #workTitle{ margin: 0 0 6px 0; font-size: 18px; font-weight: 700; }
+    #workDesc{ margin: 0; font-size: 14px; line-height: 1.55; color: rgba(234,234,234,0.80); white-space: pre-line; }
+
+    #closeBtn{
+      position: fixed; right: 16px; top: 16px; z-index: 40;
+      display:none;
+      color:#eaeaea;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      user-select:none;
+      backdrop-filter: blur(8px);
+    }
+
+    /* ===== Loader: black screen only ===== */
+    #loader{
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      transition: opacity 1200ms ease, visibility 1200ms ease;
+    }
+
+    #loaderText{
+      color: rgba(234,234,234,0.92);
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.6px;
+      text-align: center;
+      user-select: none;
+    }
+
+    /* typing cursor */
+    #loaderText::after{
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 1.1em;
+      margin-left: 6px;
+      background: rgba(234,234,234,0.75);
+      transform: translateY(2px);
+      animation: blink 0.9s steps(1) infinite;
+    }
+    @keyframes blink{ 50%{ opacity: 0; } }
+
+    #loader.hide{
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="hint">
+    Drag = look (360°)<br/>
+    WASD = move, Q/E = down/up<br/>
+    Trackpad scroll = forward/back<br/>
+    Click a card = open
+  </div>
+
+  <!-- Loader -->
+  <div id="loader" aria-hidden="false">
+    <div id="loaderText"></div>
+  </div>
+
+  <!-- Overlay -->
+  <div id="overlay">
+    <div id="panel">
+      <div id="mediaWrap">
+        <!-- Local video -->
+        <video
+          id="workVideo"
+          controls
+          playsinline
+          webkit-playsinline
+          preload="metadata"
+          controlsList="nodownload noplaybackrate noremoteplayback"
+          disablePictureInPicture
+        ></video>
+
+        <!-- YouTube -->
+        <iframe
+          id="workYouTube"
+          title="YouTube player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+
+        <!-- Image -->
+        <img id="workImage" alt="" draggable="false" />
+      </div>
+
+      <div id="meta">
+        <h2 id="workTitle"></h2>
+        <p id="workDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="closeBtn">Close (Esc)</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+  <script>
+    // ================= Loader helpers =================
+    const loader = document.getElementById("loader");
+    const loaderTextEl = document.getElementById("loaderText");
+    const LOADER_LINE = "Now you’re entering my mindspace...";
+
+    function hideLoader() {
+      if (!loader) return;
+      loader.classList.add("hide");
+      setTimeout(() => loader.remove(), 1400);
+    }
+
+    function typeText(el, text, speed = 90) {
+      return new Promise((resolve) => {
+        if (!el) return resolve();
+        el.textContent = "";
+        let i = 0;
+        const tick = () => {
+          el.textContent = text.slice(0, i);
+          i++;
+          if (i <= text.length) setTimeout(tick, speed);
+          else resolve();
+        };
+        tick();
+      });
+    }
+
+    // -------- Overlay UI --------
+    const overlay = document.getElementById("overlay");
+    const closeBtn = document.getElementById("closeBtn");
+    const workVideo = document.getElementById("workVideo");
+    const workYouTube = document.getElementById("workYouTube");
+    const workImage = document.getElementById("workImage");
+    const workTitle = document.getElementById("workTitle");
+    const workDesc  = document.getElementById("workDesc");
+
+    // ✅ 우클릭 저장(컨텍스트 메뉴) 막기: 영상/이미지
+    workVideo.addEventListener("contextmenu", (e) => e.preventDefault());
+    workImage.addEventListener("contextmenu", (e) => e.preventDefault());
+
+    let isOverlayOpen = false;
+    let focusedCard = null;
+
+    // ===== YouTube mapping (your links) =====
+    const YT = {
+      fmp: "l6OKzIDDDF4",
+      hand_tracking: "g-zxB0aLuqU",
+      mood_conductor: "UfMzmrSV7N8",
+      partical: "nCXRd7bdIuc",
+      trailer: "CHAmK8H6ghw",
+      unknown_world: "WDX9PpEYAKY",
+      unreal: "8q2bFmGtuGE"
+    };
+
+    function ytEmbed(id){
+      // privacy-friendly domain
+      return `https://www.youtube-nocookie.com/embed/${id}`;
+    }
+
+    function resetMedia() {
+      // local video
+      workVideo.pause();
+      workVideo.removeAttribute("src");
+      workVideo.load();
+      workVideo.style.display = "none";
+
+      // youtube
+      workYouTube.removeAttribute("src");
+      workYouTube.style.display = "none";
+
+      // image
+      workImage.removeAttribute("src");
+      workImage.style.display = "none";
+    }
+
+    function openWork(card) {
+      const work = card.userData.work;
+
+      workTitle.textContent = work.title || "";
+      workDesc.textContent  = work.description || "";
+
+      resetMedia();
+
+      if (work.type === "image") {
+        workImage.src = work.src;
+        workImage.style.display = "block";
+      } else if (work.type === "youtube") {
+        workYouTube.src = work.src;
+        workYouTube.style.display = "block";
+      } else {
+        // local video
+        workVideo.src = work.src;
+        workVideo.currentTime = 0;
+        workVideo.style.display = "block";
+
+        workVideo.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback");
+        workVideo.setAttribute("disablePictureInPicture", "");
+        workVideo.play().catch(()=>{});
+      }
+
+      overlay.style.display = "flex";
+      closeBtn.style.display = "block";
+      isOverlayOpen = true;
+      focusedCard = card;
+    }
+
+    function closeOverlay() {
+      overlay.style.display = "none";
+      closeBtn.style.display = "none";
+      isOverlayOpen = false;
+      resetMedia();
+      focusedCard = null;
+    }
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeOverlay();
+    });
+    closeBtn.addEventListener("click", closeOverlay);
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isOverlayOpen) closeOverlay();
+    });
+
+    // -------- Fallback title texture --------
+    function makeTitleTexture(title) {
+      const c = document.createElement("canvas");
+      c.width = 512; c.height = 288;
+      const ctx = c.getContext("2d");
+
+      const grad = ctx.createLinearGradient(0, 0, c.width, c.height);
+      grad.addColorStop(0, "rgba(25,25,40,1)");
+      grad.addColorStop(1, "rgba(5,5,10,1)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, c.width, c.height);
+
+      ctx.fillStyle = "rgba(255,255,255,0.08)";
+      ctx.fillRect(0, 0, c.width, 70);
+
+      ctx.fillStyle = "rgba(255,255,255,0.92)";
+      ctx.font = "700 26px system-ui, -apple-system, sans-serif";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+
+      const pad = 22;
+      ctx.fillText(title || "Untitled", pad, c.height * 0.55);
+
+      ctx.fillStyle = "rgba(255,255,255,0.55)";
+      ctx.font = "500 13px system-ui, -apple-system, sans-serif";
+      ctx.fillText("Click to open", pad, c.height - 20);
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      return tex;
+    }
+
+    // -------- MAIN INIT --------
+    (async function init(){
+      // 0) typing 먼저
+      await typeText(loaderTextEl, LOADER_LINE, 90);
+
+      // 1) Load manifest
+      let manifest;
+      try {
+        const res = await fetch("assets/manifest.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("manifest fetch failed: " + res.status);
+        manifest = await res.json();
+      } catch (err) {
+        alert("Can't read assets/manifest.json. Check path / JSON syntax.");
+        console.error(err);
+        return;
+      }
+
+      const priority = Array.isArray(manifest.priority) ? manifest.priority : [];
+      const items    = Array.isArray(manifest.items) ? manifest.items : [];
+
+      // 2) Build works array
+      const works = items.map(it => {
+        const type = (it.type || "video").toLowerCase();
+        const file = it.file || "";
+        const isImage = (type === "image");
+
+        const ytId = (!isImage && YT[it.id]) ? YT[it.id] : null;
+
+        return {
+          id: it.id,
+          type: isImage ? "image" : (ytId ? "youtube" : "video"),
+          title: it.title || it.id,
+          description: it.description || "",
+          src: isImage ? ("assets/images/" + file)
+                       : (ytId ? ytEmbed(ytId) : ("assets/videos/" + file)),
+          thumb: it.thumb ? ("assets/thumbs/" + it.thumb) : null
+        };
+      }).filter(w => w.id && w.src);
+
+      if (!works.length) {
+        alert("manifest items are empty. Check assets/manifest.json!");
+        return;
+      }
+
+      // priority index
+      const prIndex = new Map(priority.map((id, i) => [id, i]));
+
+      // priorityWorks / otherWorks
+      const priorityWorks = [];
+      const otherWorks = [];
+      for (const w of works) {
+        if (prIndex.has(w.id)) priorityWorks.push(w);
+        else otherWorks.push(w);
+      }
+      priorityWorks.sort((a,b) => prIndex.get(a.id) - prIndex.get(b.id));
+
+      // 3) Scene
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(0x0b0b16, 15, 180);
+
+      const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 600);
+      camera.position.set(0, 0, 35);
+
+      const renderer = new THREE.WebGLRenderer({ antialias:true });
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      document.body.appendChild(renderer.domElement);
+
+      scene.add(new THREE.AmbientLight(0xffffff, 1));
+
+      // ====== Layout params ======
+      const CARD_COUNT    = Math.max(works.length, 90);
+
+      const FRONT_Z       = 15;
+      const FRONT_SPREAD  = 20;
+      const INNER_R       = 25;
+      const OUTER_R       = 60;
+      const MIN_CAM_DIST  = 12;
+      // ==========================
+
+      function randomInShell(r1, r2) {
+        const a = Math.min(r1, r2);
+        const b = Math.max(r1, r2);
+
+        const u = Math.random();
+        const r = Math.cbrt((b**3 - a**3) * u + a**3);
+
+        const theta = Math.random() * Math.PI * 2;
+        const v = Math.random() * 2 - 1;
+        const phi = Math.acos(v);
+
+        return new THREE.Vector3(
+          r * Math.sin(phi) * Math.cos(theta),
+          r * Math.cos(phi),
+          r * Math.sin(phi) * Math.sin(theta)
+        );
+      }
+
+      function safeRandomPos() {
+        for (let tries = 0; tries < 60; tries++) {
+          const p = randomInShell(INNER_R, OUTER_R);
+          const d = camera.position.distanceTo(p);
+          if (d > MIN_CAM_DIST && p.z < (camera.position.z - 2)) return p;
+        }
+        return new THREE.Vector3(
+          (Math.random()*2-1) * OUTER_R,
+          (Math.random()*2-1) * OUTER_R * 0.6,
+          0
+        );
+      }
+
+      const texLoader = new THREE.TextureLoader();
+
+      function createMaterial(work){
+        const mat = new THREE.MeshBasicMaterial({
+          transparent: true,
+          opacity: 1,
+          depthWrite: false,
+          color: new THREE.Color(1,1,1)
+        });
+
+        if (work.thumb) {
+          texLoader.load(
+            work.thumb,
+            (tex) => {
+              tex.colorSpace = THREE.SRGBColorSpace;
+              mat.map = tex;
+              mat.needsUpdate = true;
+            },
+            undefined,
+            () => {
+              mat.map = makeTitleTexture(work.title);
+              mat.needsUpdate = true;
+            }
+          );
+        } else {
+          mat.map = makeTitleTexture(work.title);
+        }
+        return mat;
+      }
+
+      // 4) Cards
+      const cards = [];
+
+      const FRONT_MIX_EXTRA = Math.min(10, otherWorks.length);
+
+      const mixed = otherWorks.slice(0);
+      for (let i = mixed.length - 1; i > 0; i--) {
+        const j = (Math.random() * (i + 1)) | 0;
+        [mixed[i], mixed[j]] = [mixed[j], mixed[i]];
+      }
+      const frontGroup = priorityWorks.concat(mixed.slice(0, FRONT_MIX_EXTRA));
+
+      function pickRandomWork() {
+        const p = Math.random();
+        if (priorityWorks.length && p < 0.35) {
+          return priorityWorks[(Math.random() * priorityWorks.length) | 0];
+        }
+        return works[(Math.random() * works.length) | 0];
+      }
+
+      function frontPos(index){
+        if (index === 0) return new THREE.Vector3(0, 0, FRONT_Z);
+
+        const ang = index * 1.15;
+        const rad = 3 + index * 1.3;
+        const jx = (Math.random() * 2 - 1) * 3.8;
+        const jy = (Math.random() * 2 - 1) * 2.8;
+        const jz = (Math.random() * 2 - 1) * 2.2;
+
+        const x = Math.cos(ang) * rad + jx;
+        const y = Math.sin(ang * 0.9) * (rad * 0.45) + jy;
+        const z = FRONT_Z + jz;
+
+        const cx = THREE.MathUtils.clamp(x, -FRONT_SPREAD, FRONT_SPREAD);
+        const cy = THREE.MathUtils.clamp(y, -FRONT_SPREAD * 0.6, FRONT_SPREAD * 0.6);
+        return new THREE.Vector3(cx, cy, z);
+      }
+
+      for (let i = 0; i < CARD_COUNT; i++){
+        const work = (i < frontGroup.length) ? frontGroup[i] : pickRandomWork();
+        const mat  = createMaterial(work);
+
+        const w = 6.5 + Math.random() * 6.5;
+        const h = w * (9/16);
+        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+
+        const p = (i < frontGroup.length) ? frontPos(i) : safeRandomPos();
+        mesh.position.copy(p);
+
+        const isPriority = prIndex.has(work.id);
+        const rank = isPriority ? prIndex.get(work.id) : 9999;
+
+        mesh.userData.work = work;
+        mesh.userData.isPriority = isPriority;
+        mesh.userData.prRank = rank;
+
+        mesh.userData.base = p.clone();
+        mesh.userData.target = p.clone();
+        mesh.userData.vel = new THREE.Vector3();
+        mesh.userData.seed = Math.random() * 1000;
+
+        scene.add(mesh);
+        cards.push(mesh);
+      }
+
+      // ✅ 로딩 → 페이드 인
+      document.body.classList.add("revealed");
+      setTimeout(hideLoader, 700);
+
+      // 5) Look control (drag)
+      let yaw = 0, pitch = 0;
+      let dragging = false;
+      let lastX = 0, lastY = 0;
+      let moved = 0;
+      const LOOK_SENS = 0.004;
+
+      renderer.domElement.addEventListener("pointerdown", (e) => {
+        if (isOverlayOpen) return;
+        dragging = true;
+        moved = 0;
+        lastX = e.clientX;
+        lastY = e.clientY;
+      });
+      window.addEventListener("pointerup", () => dragging = false);
+
+      window.addEventListener("pointermove", (e) => {
+        if (isOverlayOpen) return;
+        if (!dragging) return;
+
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        lastX = e.clientX;
+        lastY = e.clientY;
+
+        moved += Math.abs(dx) + Math.abs(dy);
+
+        yaw   -= dx * LOOK_SENS;
+        pitch -= dy * LOOK_SENS;
+
+        const limit = Math.PI / 2 - 0.05;
+        pitch = Math.max(-limit, Math.min(limit, pitch));
+      });
+
+      // 6) Movement + trackpad scroll
+      const keys = new Set();
+      window.addEventListener("keydown", e => keys.add(e.key.toLowerCase()));
+      window.addEventListener("keyup",   e => keys.delete(e.key.toLowerCase()));
+
+      let baseSpeed = 0.15;
+      let scrollVel = 0;
+      const SCROLL_SENS = 0.0016;
+      const SCROLL_DAMP = 0.86;
+
+      window.addEventListener("wheel", (e) => {
+        if (isOverlayOpen) return;
+        scrollVel += (-e.deltaY) * SCROLL_SENS;
+        e.preventDefault();
+      }, { passive:false });
+
+      function updateMovement(){
+        if (isOverlayOpen) return;
+
+        const fast = keys.has("shift") ? 2.0 : 1.0;
+        const speed = baseSpeed * fast;
+
+        const forward = new THREE.Vector3(0,0,-1).applyEuler(new THREE.Euler(pitch, yaw, 0, "YXZ"));
+        const right   = new THREE.Vector3(1,0,0).applyEuler(new THREE.Euler(0, yaw, 0, "YXZ"));
+        const up      = new THREE.Vector3(0,1,0);
+
+        const v = new THREE.Vector3();
+        if (keys.has("w")) v.add(forward);
+        if (keys.has("s")) v.sub(forward);
+        if (keys.has("d")) v.add(right);
+        if (keys.has("a")) v.sub(right);
+        if (keys.has("e")) v.add(up);
+        if (keys.has("q")) v.sub(up);
+
+        if (v.lengthSq() > 0){
+          v.normalize().multiplyScalar(speed);
+          camera.position.add(v);
+        }
+
+        if (Math.abs(scrollVel) > 0.00001) {
+          camera.position.add(forward.clone().multiplyScalar(scrollVel));
+          scrollVel *= SCROLL_DAMP;
+        } else scrollVel = 0;
+      }
+
+      // 7) Click (raycaster)
+      const raycaster = new THREE.Raycaster();
+      const mouseNDC = new THREE.Vector2();
+
+      function getHits(clientX, clientY){
+        const rect = renderer.domElement.getBoundingClientRect();
+        mouseNDC.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+        mouseNDC.y = -(((clientY - rect.top) / rect.height) * 2 - 1);
+        raycaster.setFromCamera(mouseNDC, camera);
+        return raycaster.intersectObjects(cards, false);
+      }
+
+      renderer.domElement.addEventListener("click", (e) => {
+        if (isOverlayOpen) return;
+        if (moved > 6) return;
+        const hits = getHits(e.clientX, e.clientY);
+        if (!hits.length) return;
+        openWork(hits[0].object);
+      });
+
+      // 8) Hover
+      const pointer = { x: 0, y: 0 };
+      let hoverCard = null;
+
+      window.addEventListener("pointermove", (e) => {
+        const rect = renderer.domElement.getBoundingClientRect();
+        pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        pointer.y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+      });
+
+      function updateHover(){
+        if (isOverlayOpen) { hoverCard = null; return; }
+        raycaster.setFromCamera(pointer, camera);
+        const hits = raycaster.intersectObjects(cards, false);
+        hoverCard = hits.length ? hits[0].object : null;
+      }
+
+      // 9) Animate
+      const camForward = new THREE.Vector3();
+
+      function animate(){
+        requestAnimationFrame(animate);
+
+        camera.rotation.set(pitch, yaw, 0, "YXZ");
+        updateMovement();
+        updateHover();
+
+        camera.getWorldDirection(camForward);
+        const t = performance.now() * 0.001;
+
+        for (const m of cards){
+          const s = m.userData.seed;
+          const base = m.userData.base;
+
+          // drift
+          const x = base.x + Math.sin(t * 0.7 + s) * 0.45;
+          const y = base.y + Math.cos(t * 0.6 + s) * 0.38;
+          const z = base.z + Math.sin(t * 0.5 + s) * 0.30;
+          m.userData.target.set(x,y,z);
+
+          m.userData.vel.multiplyScalar(0.86);
+          m.userData.vel.add(m.userData.target.clone().sub(m.position).multiplyScalar(0.06));
+          m.position.add(m.userData.vel);
+
+          const isHover = (hoverCard === m);
+
+          if (focusedCard === m){
+            const focusPos = camera.position.clone()
+              .add(camForward.clone().multiplyScalar(9))
+              .add(new THREE.Vector3(1.2, -0.6, 0));
+
+            m.position.lerp(focusPos, 0.12);
+            m.scale.lerp(new THREE.Vector3(1.9,1.9,1.9), 0.12);
+
+            m.material.opacity = 1.0;
+            m.material.color.setScalar(1.0);
+          } else {
+            m.scale.lerp(isHover ? new THREE.Vector3(1.12,1.12,1.12) : new THREE.Vector3(1,1,1), 0.10);
+
+            const dist = camera.position.distanceTo(m.position);
+            let fade = (dist - 25) / (150 - 25);
+            fade = THREE.MathUtils.clamp(fade, 0, 1);
+
+            const overlayDim = isOverlayOpen ? 0.55 : 1.0;
+            const isPriority = !!m.userData.isPriority;
+
+            // 가까워질수록 선명
+            const near = THREE.MathUtils.clamp(1.0 - (dist - 12) / 22, 0, 1);
+
+            const priorityOpacityMul = isPriority ? 1.0 : THREE.MathUtils.lerp(0.18, 1.0, near);
+            const priorityBrightMul  = isPriority ? 1.0 : THREE.MathUtils.lerp(0.50, 1.0, near);
+
+            m.material.opacity = THREE.MathUtils.lerp(0.98, 0.08, fade) * overlayDim * priorityOpacityMul;
+
+            const baseBright = THREE.MathUtils.lerp(1.0, 0.45, fade) * overlayDim * priorityBrightMul;
+            const bright = isHover ? Math.min(1.15, baseBright + 0.25) : baseBright;
+            m.material.color.setScalar(bright);
+          }
+
+          m.lookAt(camera.position);
+        }
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener("resize", () => {
+        camera.aspect = innerWidth / innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(innerWidth, innerHeight);
+      });
+
+      console.log("Loaded works:", works.length, "priority:", priority);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+{
+  "priority": [
+    "cem",
+    "mood_conductor",
+    "trailer",
+    "fmp",
+    "hand_tracking",
+    "partical",
+    "unreal",
+    "person",
+    "unknown_world"
+  ],
+  "items": [
+    {
+      "id": "cem",
+      "type": "image",
+      "title": "CEM",
+      "file": "CEM.png",
+      "thumb": "CEM.png",
+      "description": "Cute Error Machine (CEM) (2025) is a prototype object that attempts to interpret a viewer’s emotional state and output a printed label. Rather than presenting emotion recognition as an accurate or reliable process, the work deliberately foregrounds misreadings and glitches.\n\nCEM makes the machine’s “decision” tangible through physical output. The printed result becomes a visible record of how emotions are simplified into categories, and how easily those categories fail to reflect lived experience. By emphasizing repeated error as a core behavior, the project reframes failure not as a flaw to be fixed, but as a lens to question the promises of affect-recognition systems.\n\nThrough its small scale and approachable presence, the work invites audiences to engage closely with the device while also noticing the discomfort and humor that emerge when a machine confidently labels what it cannot truly know."
+    },
+    {
+      "id": "mood_conductor",
+      "type": "video",
+      "title": "Mood Conductor",
+      "file": "mood_conductor.mov",
+      "thumb": "mood_conductor.jpg",
+      "description": "Mood Conductor (2025) is an interactive music system that allows users to select and perform emotional states through hand-tracking gestures. Using MediaPipe-based tracking and real-time mapping, the user’s movement functions like conducting, shifting musical atmosphere by controlling parameters such as volume, intensity, and preset switching in Ableton.\n\nThe work focuses on the translation between bodily gesture and emotional sound. Instead of treating emotion as a fixed label, the system emphasizes transition and modulation. A single gesture can gradually move the composition from one mood to another, highlighting how affect can be experienced as a spectrum rather than a discrete state.\n\nBy combining live input with immediate sonic feedback, Mood Conductor explores how interactive systems can externalize internal feeling, and how digital tools can shape the way we express, perform, and recognize emotion in real time."
+    },
+    {
+      "id": "trailer",
+      "type": "video",
+      "title": "Gate",
+      "file": "trailer.mp4",
+      "thumb": "trailer.jpg",
+      "description": "Gate (2023) presents a curated overview of my practice across moving image, interactive systems, and digital environments. It brings together key visual motifs and project fragments to establish a cohesive view of my interests, including mediated nature, interface-driven perception, and real-time transformation.\n\nDesigned as an entry point, the work offers a concise sense of how my projects move between documentation and constructed imagery, and how computational tools function as both material and method within my process."
+    },
+    {
+      "id": "fmp",
+      "type": "video",
+      "title": "0000000",
+      "file": "fmp.mp4",
+      "thumb": "fmp.jpg",
+      "description": "0000000 (2023) was developed from reflections on contemporary life, where perception is increasingly shaped by screens, devices, and data. Even when engaging with the natural world, we often encounter it through cameras and digital interfaces. This project responds to that condition by extending the visual representation of nature beyond straightforward capture, proposing digitally rendered landscapes that can feel as compelling as physical reality.\n\nConceptually, the work links fundamental units across different systems: the cell as a basic unit of life, particles as basic units in physics, and the 8-bit structure as a foundational unit in computing. By connecting these “smallest elements,” the project frames the idea of virtual space as something built from modular components, where life, matter, and data can be understood through parallel structures.\n\nThrough a digital composition process, the work explores interrelation rather than separation. It proposes that humanity is not outside nature but embedded within it, and that digital systems are now part of how we perceive, reconstruct, and imagine natural environments."
+    },
+    {
+      "id": "hand_tracking",
+      "type": "video",
+      "title": "Sound in Your Hands",
+      "file": "hand_tracking.mp4",
+      "thumb": "hand_tracking.jpg",
+      "description": "Sound in Your Hands (2025) is an interactive study using MediaPipe-based hand tracking to control musical parameters in real time. The project maps hand movement to changes such as volume control and switching between different sound states, testing how gesture can function as a practical interface for live performance.\n\nRather than treating the hand as a simple input device, the work focuses on expressiveness and responsiveness. It examines how subtle variations in movement can create perceptible shifts in sound, and how an interface can support an embodied sense of control.\n\nAs an experiment, this project also functions as a technical and conceptual foundation for later works that connect affect, motion, and live sound systems."
+    },
+    {
+      "id": "partical",
+      "type": "video",
+      "title": "Digital Drift",
+      "file": "partical.mp4",
+      "thumb": "partical.jpg",
+      "description": "Digital Drift (2023) explores the persistent overlap between natural and digital environments. Even when we seek rest or refuge in nature, our devices remain present, tracking location and extending digital connection into physical space. The work begins from this tension and asks what it means to experience nature through systems that continuously measure, translate, and mediate it.\n\nUsing this premise, the project transforms natural imagery into particle-based visual structures. The particle aesthetic becomes a metaphor for how contemporary experience is often broken into units, processed, and reconstructed. By rendering nature through computational particles, the work suggests both beauty and distance: nature remains visually present, yet it is also filtered into a digital language.\n\nUltimately, the project emphasizes balance. It considers how we might coexist with these two spaces without treating them as opposites, and how digital mediation can reshape not only how we see nature, but how we understand our relationship to it."
+    },
+    {
+      "id": "unreal",
+      "type": "video",
+      "title": "Familiar, Unfamiliar",
+      "file": "unreal.mp4",
+      "thumb": "unreal.jpg",
+      "description": "Familiar, Unfamiliar (2025) is a digital environment constructed in Unreal Engine that aims to evoke an uncanny sensation of familiarity and distortion. The world is composed using recognizable objects and natural references, but the logic of the space is intentionally altered through changes in gravity, scale, and proportion.\n\nBy shifting physical rules, the environment produces subtle instability: objects float differently than expected, sizes feel inconsistent, and the relationship between the body and the world becomes uncertain. These adjustments function as a method for questioning how perception and emotion change when a place looks familiar but behaves in unfamiliar ways.\n\nThrough an altered world that still feels almost believable, the project invites viewers to consider how quickly “normal” reality can become strange when its underlying rules are reconfigured."
+    },
+    {
+      "id": "person",
+      "type": "video",
+      "title": "Jordan",
+      "file": "person.mp4",
+      "thumb": "person.jpg",
+      "description": "Jordan is an early study developed as part of the research process leading to Digital Drift. It functions as a practice work for testing how natural imagery can be translated into particle-based form, and how a visual system can maintain coherence while shifting between organic reference and computational structure.\n\nAs a preliminary experiment, Jordan focuses on refining the core techniques and visual language later expanded in the final project. It documents a phase of iteration where the particle aesthetic is explored not only as an effect, but as a conceptual method for representing mediated experience."
+    },
+    {
+      "id": "unknown_world",
+      "type": "video",
+      "title": "Unknown World",
+      "file": "unknown_world.mp4",
+      "thumb": "unknown_world.jpg",
+      "description": "Unknown World was developed from footage gathered during my travels, where I often documented natural scenery through a camera or iPhone. Using a node-based digital program, I reconstructed these scenes to form a personal perspective on nature, shaped by transformation rather than direct reproduction.\n\nThe project engages the reality that digital devices are inseparable from daily life. Even when we encounter nature, we frequently experience it through a mediated process of recording, viewing, and editing. From this condition, Unknown World aims to bridge distance: between those who cannot access nature firsthand and those who may not initially seek it out.\n\nBy enabling rewinding, shifting color palettes, and manipulating space and time, the work proposes an alternative encounter with nature. Instead of presenting landscapes in a documentary style, it offers a digitally constructed nature that can feel equally captivating while emphasizing customization, immersion, and the possibility of experiencing place through virtual and computational means."
+    },
+
+    {
+      "id": "ascii",
+      "type": "video",
+      "title": "ASCII BLOB",
+      "file": "ascii.mp4",
+      "thumb": "ascii.jpg",
+      "description": "ASCII BLOB (2024) uses footage from the FW 24/25 16Arlington fashion show to demonstrate the creative potential of TouchDesigner in transforming real-time visuals. Through shape detection and tracking, the system identifies specific forms within the image and enables live manipulation of motion and emphasis.\n\nThe project explores how image processing can reframe fashion documentation into an interactive visual field. By selectively blurring sections of the image or amplifying certain colors, shapes, and patterns, the work highlights how computational tools can reveal structure and rhythm that may be less visible in the original footage.\n\nAs a study, ASCII BLOB forms a foundation for further exploration of fashion imagery, real-time systems, and the relationship between visual analysis and creative intervention."
+    },
+    {
+      "id": "daydream",
+      "type": "video",
+      "title": "Daydream",
+      "file": "daydream.MP4",
+      "thumb": "daydream.jpg",
+      "description": "Daydream (2023) is a short video based on dreamlike ballerina imagery generated through Stable Diffusion. Using prompt-driven generation and iterative experimentation, I created multiple character variations and visual styles that emphasize grace, softness, and motion.\n\nThe work extends beyond static generation by applying real-time transformation to the images. Visuals are dynamically altered in response to music or user input, allowing the piece to evolve as a responsive experience rather than a fixed sequence.\n\nBy combining AI image synthesis with live visual modulation, Daydream examines how machine-generated imagery can support poetic movement studies, and how digital tools can blur boundaries between the organic aesthetics of the human form and computational reconstruction."
+    },
+    {
+      "id": "gazer",
+      "type": "video",
+      "title": "Gazer",
+      "file": "gazer.mp4",
+      "thumb": "gazer.jpg",
+      "description": "Gazer (2023) is a moving-image work that reinterprets the design language of British fashion designer Jean Muir. The project constructs a palette around her signature blue, a color she frequently used to express calmness, elegance, and timeless beauty. For Muir, blue served as an understated statement that directed attention toward structure and form rather than ornament.\n\nIn response, I translated garment details and jewelry motifs into a digital visual grammar. Shapes derived from patterns and accessories were reconstructed from 2D references into 3D space, emphasizing a sculptural interpretation of the original fashion imagery.\n\nThe work was presented in an immersive setting using glass beads placed within a dark booth, creating spatial depth and enhancing the sense of dimensional movement."
+    },
+    {
+      "id": "image_floating",
+      "type": "video",
+      "title": "Image Floating",
+      "file": "image_floating.mp4",
+      "thumb": "image_floating.jpg",
+      "description": "Image Floating is a moving-image study that experiments with the sensation of images drifting through space rather than staying fixed on a flat screen.\n\nBy tuning framing, depth, and motion, the work explores moments when an image begins to feel spatial—present as an object that occupies space, not only as something viewed."
+    },
+    {
+      "id": "looking_glass",
+      "type": "video",
+      "title": "Looking Glass",
+      "file": "looking_glass.mp4",
+      "thumb": "looking_glass.jpg",
+      "description": "Looking Glass (2023) presents visuals related to Digital Drift through a holographic display format, shifting the viewing experience from a flat screen to a dimensional image space.\n\nThe work considers how depth, presence, and materiality change when imagery is perceived as floating or volumetric. It proposes that not only the image content, but also the display format, participates in shaping our relationship to digital nature."
+    },
+    {
+      "id": "machine_signal",
+      "type": "video",
+      "title": "Machine Signal",
+      "file": "machine_signal.mp4",
+      "thumb": "machine_signal.jpg",
+      "description": "Machine Signal explores the contrast between our embodied existence in nature and our constant interaction with digital devices, focusing on the forms and movements of the human body.\n\nIn response, I produced a bone-like form through 3D printing, drawing from skeletal motion and bodily geometry. The wiring of digital devices is reimagined as veins, proposing a merged metaphor where technological infrastructure becomes an extension of the human body.\n\nPresented across multiple screens, the work uses a distributed display approach to intensify immersion and invites viewers to reflect on how digital systems are increasingly intertwined with how we move, perceive, and occupy space."
+    },
+    {
+      "id": "yanya",
+      "type": "video",
+      "title": "Yanya X Seonjoo",
+      "file": "yanya.mov",
+      "thumb": "yanya.jpg",
+      "description": "This collaborative video was created with Central Saint Martins MA Womenswear designer Yanya Cheng. Through generative methods, I reinterpreted one garment from her collection within a digital environment.\n\nYanya’s work draws from AI algorithms and pixel-based imagery, using straight lines and angular shapes to emphasize recurring rectangular motifs. I translated these qualities into a consistent digital visual structure, where elements are deconstructed and reassembled in real time.\n\nBy shifting the garment from a physical object into a computational form, the project highlights fashion as a transformable system and proposes how digital tools can expand design language through dynamic reconfiguration."
+    },
+
+    {
+      "id": "graphic1",
+      "type": "image",
+      "title": "Graphic 1",
+      "file": "graphic1.jpg",
+      "thumb": "graphic1.jpg",
+      "description": "Graphic 1 is a graphic experiment that begins with photo-based collage and translates it into a digital format.\n\nBy recombining textures and layered structures through digital editing, the work captures an earlier visual style while connecting it to my current image-making approach."
+    },
+    {
+      "id": "graphic2",
+      "type": "image",
+      "title": "Graphic 2",
+      "file": "graphic2.jpg",
+      "thumb": "graphic2.jpg",
+      "description": "Graphic 2 is a graphic experiment that begins with photo-based collage and translates it into a digital format.\n\nBy recombining textures and layered structures through digital editing, the work captures an earlier visual style while connecting it to my current image-making approach."
+    },
+
+    {
+      "id": "g_person1",
+      "type": "image",
+      "title": "Person Study 1",
+      "file": "g_person1.jpg",
+      "thumb": "g_person1.jpg",
+      "description": "Person Study 1 is a visual study that explores transformations of the human figure through form, texture, and color.\n\nRather than emphasizing portrait likeness, the work treats the figure as material—focusing on surface, distortion, and shifts in atmosphere produced through digital manipulation."
+    },
+    {
+      "id": "g_person2",
+      "type": "image",
+      "title": "Person Study 2",
+      "file": "g_person2.jpg",
+      "thumb": "g_person2.jpg",
+      "description": "Person Study 2 is a visual study that explores transformations of the human figure through form, texture, and color.\n\nRather than emphasizing portrait likeness, the work treats the figure as material—focusing on surface, distortion, and shifts in atmosphere produced through digital manipulation."
+    },
+    {
+      "id": "g_person3",
+      "type": "image",
+      "title": "Person Study 3",
+      "file": "g_person3.jpg",
+      "thumb": "g_person3.jpg",
+      "description": "Person Study 3 is a visual study that explores transformations of the human figure through form, texture, and color.\n\nRather than emphasizing portrait likeness, the work treats the figure as material—focusing on surface, distortion, and shifts in atmosphere produced through digital manipulation."
+    },
+
+    {
+      "id": "pink",
+      "type": "image",
+      "title": "Pink",
+      "file": "pink.jpg",
+      "thumb": "pink.jpg",
+      "description": "Pink is a color-centered visual experiment that studies how palette and tone shape emotional impression.\n\nA simplified human figure—without facial expression—is held within the frame to emphasize presence through color and form rather than personality or narrative."
+    },
+    {
+      "id": "green",
+      "type": "image",
+      "title": "Green",
+      "file": "green.jpg",
+      "thumb": "green.jpg",
+      "description": "Green is a color-centered visual experiment that studies how palette and tone shape emotional impression.\n\nA simplified human figure—without facial expression—is held within the frame to emphasize presence through color and form rather than personality or narrative."
+    },
+    {
+      "id": "yellow",
+      "type": "image",
+      "title": "Yellow",
+      "file": "yellow.jpg",
+      "thumb": "yellow.jpg",
+      "description": "Yellow is a color-centered visual experiment that studies how palette and tone shape emotional impression.\n\nA simplified human figure—without facial expression—is held within the frame to emphasize presence through color and form rather than personality or narrative."
+    },
+
+    {
+      "id": "memory1",
+      "type": "image",
+      "title": "Memory 1",
+      "file": "memory1.jpg",
+      "thumb": "memory1.jpg",
+      "description": "Memory 1 visualizes memory as a constructed system rather than a continuous image.\n\nThe composition is built from small square units, like puzzle pieces or Tetris blocks. As fragments interlock into a scene, the work suggests how remembering often happens through recombination and reconstruction."
+    },
+    {
+      "id": "memory2",
+      "type": "image",
+      "title": "Memory 2",
+      "file": "memory2.jpg",
+      "thumb": "memory2.jpg",
+      "description": "Memory 2 visualizes memory as a constructed system rather than a continuous image.\n\nThe composition is built from small square units, like puzzle pieces or Tetris blocks. As fragments interlock into a scene, the work suggests how remembering often happens through recombination and reconstruction."
+    }
+  ]
+}
